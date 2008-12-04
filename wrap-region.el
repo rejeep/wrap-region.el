@@ -2,7 +2,7 @@
 
 ;; Copyright 2008  Johan Andersson
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; License ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; License ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;; Installation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;; Installation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
@@ -33,7 +33,7 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; History ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; History ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;;
 ;;
@@ -41,5 +41,69 @@
 
 ;;; Code:
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defconst wrap-region-version ""
+  "")
+
+(defvar wrap-region-mode-map (make-sparse-keymap)
+  "")
+
+(defvar wrap-region-punctuations-table ""
+  "")
+
+(defvar wrap-region-tag-active t
+  "")
+(make-variable-buffer-local 'wrap-region-tag-active)
+
+(defvar wrap-region-punctuations ""
+  "")
+(make-variable-buffer-local 'wrap-region-punctuations)
+
+(defvar wrap-region-before-hook '()
+  "")
+
+(defvar wrap-region-after-hook '()
+  "")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun wrap-region-with-punctuation-or-insert ()
+  ""
+  )
+
+(defun wrap-region-with-punctuation ()
+  ""
+  )
+
+(defun wrap-region-with-tag-or-insert ()
+  ""
+  )
+
+(defun wrap-region-with-tag ()
+  ""
+  )
+
+(defun wrap-region ()
+  ""
+  )
+
+(defun wrap-region-corresponding-punctuation ()
+  ""
+  )
+
+(defun wrap-region-add-punctuation ()
+  ""
+  )
+
+;;;###autoload
+(define-minor-mode wrap-region
+  ""
+  :init-value nil
+  :lighter " wrap-region"
+  :keymap '())
+;;;###autoload
+
+(provide 'wrap-region)
 
 ;;; wrap-region.el ends here
