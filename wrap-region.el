@@ -44,56 +44,74 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst wrap-region-version ""
-  "")
+  "Wrap region version.")
 
 (defvar wrap-region-mode-map (make-sparse-keymap)
-  "")
+  "Keymap for `wrap-region-mode'.")
 
 (defvar wrap-region-punctuations-table ""
-  "")
+  "A list with all possible punctuations and their right corresponding punctuation.")
 
 (defvar wrap-region-tag-active nil
-  "")
+  "This variable tells whether < are to be used
+as a tag or a regular punctuation.")
 (make-variable-buffer-local 'wrap-region-tag-active)
 
-(defvar wrap-region-punctuations ""
-  "")
-(make-variable-buffer-local 'wrap-region-punctuations)
+(defvar wrap-region-punctuations '()
+  "Use this if you want mode specific punctuations.
+Key is the symbol name of the mode and the value is a list
+of punctuations.")
+
+(defvar wrap-region-insert-twice t
+  "If this is true, when inserting a punctuation,
+the corresponding punctuation will be inserted after and
+the cursor will be placed between them.")
 
 (defvar wrap-region-before-hook '()
-  "")
+  "Evaled before the region is wrapped.")
 
 (defvar wrap-region-after-hook '()
-  "")
+  "Evaled after the region is wrapped.")
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun wrap-region-with-punctuation-or-insert ()
-  ""
+  "Wraps a region with the punctuations if any region is selected.
+Otherwise the punctuation(s) are inserted."
+  
   )
 
 (defun wrap-region-with-punctuation ()
-  ""
+  "Wraps a region with the punctuations."
+  
   )
 
 (defun wrap-region-with-tag-or-insert ()
-  ""
+  "Wraps a region with a tag if any region is selected.
+Otherwise the punctuation(s) are inserted."
+  
   )
 
 (defun wrap-region-with-tag ()
-  ""
+  "Wraps a region with a tag."
+  
   )
 
 (defun wrap-region ()
-  ""
+  "Wraps region."
+  
   )
 
 (defun wrap-region-corresponding-punctuation ()
-  ""
+  "Returns the corresponding punctuation to a punctuation
+or nil if the punctuation does not exists."
+  
   )
 
 (defun wrap-region-add-punctuation ()
-  ""
+  "Adds a new punctuation to the punctuation list."
+  
   )
 
 ;;;###autoload
