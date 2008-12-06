@@ -52,7 +52,7 @@
 (defvar wrap-region-punctuations-table ""
   "")
 
-(defvar wrap-region-tag-active t
+(defvar wrap-region-tag-active nil
   "")
 (make-variable-buffer-local 'wrap-region-tag-active)
 
