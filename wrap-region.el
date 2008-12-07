@@ -52,6 +52,15 @@
 (defvar wrap-region-punctuations-table (make-hash-table)
   "A list with all possible punctuations and their right corresponding punctuation.")
 
+(puthash "\"" "\"" wrap-region-punctuations-table)
+(puthash "'"  "'"  wrap-region-punctuations-table)
+(puthash "("  ")"  wrap-region-punctuations-table)
+(puthash "{"  "}"  wrap-region-punctuations-table)
+(puthash "["  "]"  wrap-region-punctuations-table)
+(puthash "<"  ">"  wrap-region-punctuations-table)
+(puthash "|"  "|"  wrap-region-punctuations-table)
+(puthash "\\" "\\" wrap-region-punctuations-table)
+
 (defvar wrap-region-tag-active nil
   "This variable tells whether < are to be used
 as a tag or a regular punctuation.")
