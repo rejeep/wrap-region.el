@@ -123,9 +123,9 @@ or nil if the punctuation does not exists."
 
 (defun wrap-region-set-mode-punctuations (punctuations &optional mode)
   "Use this when the punctuations should be
-customized depending on the major mode."
-  
- )
+customized depending on the major mode. MODE argument
+is optional and will be set to `major-mode' as default."
+  (puthash (or mode major-mode) punctuations wrap-region-mode-punctuations))
 
 ;;;###autoload
 (define-minor-mode wrap-region
