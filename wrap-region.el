@@ -124,7 +124,7 @@ customized depending on the major mode."
 (define-minor-mode wrap-region
   "Wrap region with punctuations or insert."
   :init-value nil
-  :lighter " wrap-region"
+  :lighter " wr"
   :keymap '())
 ;;;###autoload
 
