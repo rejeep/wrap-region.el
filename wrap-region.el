@@ -108,7 +108,7 @@ Otherwise the punctuation(s) are inserted."
   (interactive)
   (if mark-active
       (call-interactively 'wrap-region-with-tag)
-    (wrap-region-insert left)))
+    (wrap-region-insert "<")))
 
 (defun wrap-region-with-tag (tag)
   "Wraps a region with a tag."
@@ -123,9 +123,9 @@ Otherwise the punctuation(s) are inserted."
   "Inserts LEFT or LEFT and it's corresponding punctuation
 if `wrap-region-insert-twice' is set to t."
   (insert left)
-  (if wrap-region-insert-twice
-      (insert (wrap-region-corresponding-punctuation left))
-    (backward-char)))
+  (cond (wrap-region-insert-twice
+         (insert (wrap-region-corresponding-punctuation left))
+         (backward-char))))
 
 (defun wrap-region (left right beg end)
   "Wraps region with LEFT and RIGHT."
@@ -164,7 +164,7 @@ is optional and will be set to `major-mode' as default."
         (unless punctuations
           (maphash (lambda (k v) (add-to-list 'punctuations k)) wrap-region-punctuations-table))
         (dolist (key punctuations)
-          (define-key wrap-region-mode-map key (wrap-region-with-punctuation-or-insert key)))
+          (define-key wrap-region-mode-map key `(lambda () (interactive) (wrap-region-with-punctuation-or-insert ,key))))
         (if wrap-region-tag-active
             (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))))
 ;;;###autoload
