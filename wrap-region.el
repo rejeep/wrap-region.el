@@ -96,30 +96,30 @@ and wrap-region-end which is the end of the region.")
   (interactive)
   (if mark-active
       (wrap-region left (wrap-region-corresponding-punctuation left) (region-beginning) (region-end))
-    (wrap-region-insert-punctuation left)))
+    (wrap-region-insert left)))
 
 (defun wrap-region-with-punctuations (left right)
   "Wraps a region with LEFT and RIGHT."
   (wrap-region left right (region-beginning) (region-end)))
 
-(defun wrap-region-insert-punctuation (left)
-  "Inserts LEFT or LEFT and it's corresponding punctuation
-if `wrap-region-insert-twice' is set to t."
-  (insert left)
-  (if wrap-region-insert-twice
-      (insert (wrap-region-corresponding-punctuation left))
-    (backward-char)))
-
 (defun wrap-region-with-tag-or-insert ()
   "Wraps a region with a tag if any region is selected.
 Otherwise the punctuation(s) are inserted."
-
+  
   )
 
 (defun wrap-region-with-tag (tag)
   "Wraps a region with a tag."
 
   )
+
+(defun wrap-region-insert (left)
+  "Inserts LEFT or LEFT and it's corresponding punctuation
+if `wrap-region-insert-twice' is set to t."
+  (insert left)
+  (if wrap-region-insert-twice
+      (insert (wrap-region-corresponding-punctuation left))
+    (backward-char)))
 
 (defun wrap-region (left right beg end)
   "Wraps region with LEFT and RIGHT."
