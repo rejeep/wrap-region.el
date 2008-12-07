@@ -118,9 +118,8 @@ or nil if the punctuation does not exists."
   (gethash punctuation wrap-region-punctuations-table))
 
 (defun wrap-region-add-punctuation (left right)
-  "Adds a new punctuation to the punctuation list."
-  
-  )
+  "Adds a new punctuation pair to the punctuation list."
+  (puthash left right wrap-region-punctuations-table))
 
 (defun wrap-region-set-mode-punctuations (&optional mode)
   "Use this when the punctuations should be
