@@ -114,7 +114,6 @@ Otherwise the punctuation(s) are inserted."
   )
 
 (defun wrap-region (left right beg end)
-  (interactive)
   "Wraps region with LEFT and RIGHT."
   (let ((wrap-region-beginning beg) (wrap-region-end end))
     (run-hooks 'wrap-region-before-hook)
