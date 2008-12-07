@@ -85,13 +85,13 @@ the cursor will be placed between them.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun wrap-region-with-punctuation-or-insert ()
+(defun wrap-region-with-punctuation-or-insert (left)
   "Wraps a region with the punctuations if any region is selected.
 Otherwise the punctuation(s) are inserted."
   
   )
 
-(defun wrap-region-with-punctuation ()
+(defun wrap-region-with-punctuation (left)
   "Wraps a region with the punctuations."
   
   )
@@ -102,28 +102,28 @@ Otherwise the punctuation(s) are inserted."
   
   )
 
-(defun wrap-region-with-tag ()
+(defun wrap-region-with-tag (tag)
   "Wraps a region with a tag."
   
   )
 
-(defun wrap-region ()
+(defun wrap-region (left right beg end)
   "Wraps region."
   
   )
 
-(defun wrap-region-corresponding-punctuation ()
+(defun wrap-region-corresponding-punctuation (punctuation)
   "Returns the corresponding punctuation to a punctuation
 or nil if the punctuation does not exists."
   
   )
 
-(defun wrap-region-add-punctuation ()
+(defun wrap-region-add-punctuation (left right)
   "Adds a new punctuation to the punctuation list."
   
   )
 
-(defun wrap-region-set-mode-punctuations ()
+(defun wrap-region-set-mode-punctuations (&optional mode)
   "Use this when the punctuations should be
 customized depending on the major mode."
   
