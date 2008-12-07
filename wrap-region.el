@@ -88,28 +88,28 @@ the cursor will be placed between them.")
 (defun wrap-region-with-punctuation-or-insert (left)
   "Wraps a region with the punctuations if any region is selected.
 Otherwise the punctuation(s) are inserted."
-  
+
   )
 
 (defun wrap-region-with-punctuation (left)
   "Wraps a region with the punctuations."
-  
+
   )
 
 (defun wrap-region-with-tag-or-insert ()
   "Wraps a region with a tag if any region is selected.
 Otherwise the punctuation(s) are inserted."
-  
+
   )
 
 (defun wrap-region-with-tag (tag)
   "Wraps a region with a tag."
-  
+
   )
 
 (defun wrap-region (left right beg end)
   "Wraps region."
-  
+
   )
 
 (defun wrap-region-corresponding-punctuation (punctuation)
@@ -128,11 +128,19 @@ is optional and will be set to `major-mode' as default."
   (puthash (or mode major-mode) punctuations wrap-region-mode-punctuations))
 
 ;;;###autoload
-(define-minor-mode wrap-region
+(define-minor-mode wrap-region-mode
   "Wrap region with punctuations or insert."
   :init-value nil
   :lighter " wr"
-  :keymap '())
+  :keymap wrap-region-mode-map
+  (if wrap-region-mode
+      (let ((punctuations (gethash major-mode wrap-region-mode-punctuations)))
+        (unless punctuations
+          (maphash (lambda (k v) (add-to-list 'punctuations k)) wrap-region-punctuations-table))
+        (dolist (key punctuations)
+          (define-key wrap-region-mode-map key (wrap-region-with-punctuation-or-insert key)))
+        (if wrap-region-tag-active
+            (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))))
 ;;;###autoload
 
 (provide 'wrap-region)
