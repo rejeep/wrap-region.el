@@ -114,9 +114,9 @@ Otherwise the punctuation(s) are inserted."
   "Wraps a region with a tag."
   (interactive "*sTag (with optional attributes): ")
   (let* ((elements (split-string tag " "))
-         (tag-name-left (car elements))
-         (tag-right (concat "</" tag-name-left ">"))
-         (tag-left (concat "<" (if (= (length elements) 1) tag-name-left tag) ">")))
+         (tag-name (car elements))
+         (tag-right (concat "</" tag-name ">"))
+         (tag-left (concat "<" (if (= (length elements) 1) tag-name tag) ">")))
     (wrap-region tag-left tag-right (region-beginning) (region-end))))
 
 (defun wrap-region-insert (left)
