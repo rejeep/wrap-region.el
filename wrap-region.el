@@ -75,7 +75,8 @@
 ;;              (wrap-region-mode t)
 ;;              ))
 ;;
-;; This will activate the punctuations ", ', and ( only.
+;; This will activate the punctuations ", ', and ( only, and it will be
+;; activated for ruby-mode.
 ;;
 ;; You can also pass a major mode to this function if you want to set
 ;; all mode specific punctuations at the same place:
@@ -90,10 +91,10 @@
 ;; t means to insert two punctuations and then move in between them,
 ;; and nil means to only insert that punctuation.
 ;;
-;; Insert both and move in between them:
+;; Insert both and move in between:
 ;; (setq wrap-region-insert-twice t)
 ;;
-;; Only insert one punctuation:
+;; Insert punctuation only:
 ;; (setq wrap-region-insert-twice nil)
 ;;
 ;;
