@@ -43,7 +43,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst wrap-region-version ""
+(defconst wrap-region-version "0.0.1"
   "Wrap region version.")
 
 (defvar wrap-region-mode-map (make-sparse-keymap)
