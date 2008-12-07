@@ -49,7 +49,7 @@
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
 
-(defvar wrap-region-punctuations-table ""
+(defvar wrap-region-punctuations-table (make-hash-table)
   "A list with all possible punctuations and their right corresponding punctuation.")
 
 (defvar wrap-region-tag-active nil
@@ -57,9 +57,9 @@
 as a tag or a regular punctuation.")
 (make-variable-buffer-local 'wrap-region-tag-active)
 
-(defvar wrap-region-punctuations '()
+(defvar wrap-region-mode-punctuations (make-hash-table)
   "Use this if you want mode specific punctuations.
-Key is the symbol name of the mode and the value is a list
+Key is the symbol name of the major mode and the value is a list
 of punctuations.")
 
 (defvar wrap-region-insert-twice t
