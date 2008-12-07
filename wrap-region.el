@@ -57,7 +57,79 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Commentary ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
+;; First of all you want to activate this mode for all major modes
+;; you want to use this in:
 ;;
+;; (add-hook 'ruby-mode-hook
+;;           '(lambda()
+;;              (wrap-region-mode t)
+;;              ))
+;;
+;; By only doing this you will activate all default punctuations. But
+;; you may not want some punctuation to be used for a certain mode. If
+;; That is the case you want to use `wrap-region-set-mode-punctuations'.
+;;
+;; (add-hook 'ruby-mode-hook
+;;           '(lambda()
+;;              (wrap-region-set-mode-punctuations '("\"" "'" "("))
+;;              (wrap-region-mode t)
+;;              ))
+;;
+;; This will activate the punctuations ", ', and ( only.
+;;
+;; You can also pass a major mode to this function if you want to set
+;; all mode specific punctuations at the same place:
+;;
+;; (wrap-region-set-mode-punctuations '("\"" "'" "(") 'ruby-mode)
+;; (wrap-region-set-mode-punctuations '("[" "{" "(") 'java-mode)
+;;
+;;
+;; You can also customize if you want to insert one or two punctuations
+;; (and then move in between them) if there is no region selected.
+;; This is configured by the variable `wrap-region-insert-twice'.
+;; t means to insert two punctuations and then move in between them,
+;; and nil means to only insert that punctuation.
+;;
+;; Insert both and move in between them:
+;; (setq wrap-region-insert-twice t)
+;;
+;; Only insert one punctuation:
+;; (setq wrap-region-insert-twice nil)
+;;
+;;
+;; If noting is said, "<" will be used as a regular punctuation with
+;; ">" as it's corresponding. This is desirable in languages such as
+;; Java where this is syntax is used:
+;; Set<Object> set = new HashSet<Object>();
+;;
+;; But in markup languages, such as x(HTML), XML, etc... you use tags
+;; and want to make use of the tags functionality. That is controlled
+;; by the variable `wrap-region-tag-active'. By setting this to t,
+;; when pressing "<" you will be prompted to enter a tag, which you
+;; can do in two ways.
+;;
+;; The first is to enter some tag such as "div". The selected region
+;; will then be wrapped with the div tag:
+;; <div>selected region</div>
+;;
+;; The second way is to also enter attributes for the tag, such as
+;; class, id, name, etc... If you enter:
+;; div class="some_class" id="some_id"
+;; you will end up with this:
+;; <div class="some_class" id="some_id">selected region</div>
+;;
+;;
+;; This mode comes with some default punctuations
+;; (see `wrap-region-punctuations-table'). This might not always be
+;; enough. And there's where `wrap-region-add-punctuation' comes
+;; in handy. As an example we add # as a punctuation and # as it's
+;; corresponding punctuation:
+;; (wrap-region-add-punctuation "#" "#")
+;;
+;; Note that even if you use `wrap-region-set-mode-punctuations'
+;; for mode specific punctuations, you still need to use
+;; `wrap-region-add-punctuation'. This is because that's how the
+;; corresponding punctuation is found.
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
