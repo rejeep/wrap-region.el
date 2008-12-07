@@ -114,6 +114,12 @@ or nil if the punctuation does not exists."
   
   )
 
+(defun wrap-region-set-mode-punctuations ()
+  "Use this when the punctuations should be
+customized depending on the major mode."
+  
+ )
+
 ;;;###autoload
 (define-minor-mode wrap-region
   ""
