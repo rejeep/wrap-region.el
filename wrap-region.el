@@ -92,15 +92,23 @@ and wrap-region-end which is the end of the region.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun wrap-region-with-punctuation-or-insert (left)
-  "Wraps a region with the punctuations if any region is selected.
-Otherwise the punctuation(s) are inserted."
+  "Wraps a region if any, else inserts the punctuation(s)."
+  (interactive)
+  (if mark-active
+      (wrap-region left (wrap-region-corresponding-punctuation left) (region-beginning) (region-end))
+    (wrap-region-insert-punctuation left)))
 
-  )
+(defun wrap-region-with-punctuations (left right)
+  "Wraps a region with LEFT and RIGHT."
+  (wrap-region left right (region-beginning) (region-end)))
 
-(defun wrap-region-with-punctuation (left)
-  "Wraps a region with the punctuations."
-
-  )
+(defun wrap-region-insert-punctuation (left)
+  "Inserts LEFT or LEFT and it's corresponding punctuation
+if `wrap-region-insert-twice' is set to t."
+  (insert left)
+  (if wrap-region-insert-twice
+      (insert (wrap-region-corresponding-punctuation left))
+    (backward-char)))
 
 (defun wrap-region-with-tag-or-insert ()
   "Wraps a region with a tag if any region is selected.
