@@ -68,10 +68,10 @@ the corresponding punctuation will be inserted after and
 the cursor will be placed between them.")
 
 (defvar wrap-region-before-hook '()
-  "Evaled before the region is wrapped.")
+  "Evaluated before the region is wrapped.")
 
 (defvar wrap-region-after-hook '()
-  "Evaled after the region is wrapped.")
+  "Evaluated after the region is wrapped.")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
