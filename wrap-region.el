@@ -121,7 +121,7 @@ or nil if the punctuation does not exists."
   "Adds a new punctuation pair to the punctuation list."
   (puthash left right wrap-region-punctuations-table))
 
-(defun wrap-region-set-mode-punctuations (&optional mode)
+(defun wrap-region-set-mode-punctuations (punctuations &optional mode)
   "Use this when the punctuations should be
 customized depending on the major mode."
   
