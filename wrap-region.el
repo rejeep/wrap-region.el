@@ -113,10 +113,9 @@ Otherwise the punctuation(s) are inserted."
   )
 
 (defun wrap-region-corresponding-punctuation (punctuation)
-  "Returns the corresponding punctuation to a punctuation
+  "Returns the corresponding punctuation to the given punctuation
 or nil if the punctuation does not exists."
-  
-  )
+  (gethash punctuation wrap-region-punctuations-table))
 
 (defun wrap-region-add-punctuation (left right)
   "Adds a new punctuation to the punctuation list."
