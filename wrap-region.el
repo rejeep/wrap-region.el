@@ -77,10 +77,16 @@ the corresponding punctuation will be inserted after and
 the cursor will be placed between them.")
 
 (defvar wrap-region-before-hook '()
-  "Evaluated before the region is wrapped.")
+  "Evaluated before the region is wrapped.
+Two variables are available in the hook:
+wrap-region-beginning which is the beginning of the region
+and wrap-region-end which is the end of the region.")
 
 (defvar wrap-region-after-hook '()
-  "Evaluated after the region is wrapped.")
+  "Evaluated after the region is wrapped.
+Two variables are available in the hook:
+wrap-region-beginning which is the beginning of the region
+and wrap-region-end which is the end of the region.")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -108,9 +114,16 @@ Otherwise the punctuation(s) are inserted."
   )
 
 (defun wrap-region (left right beg end)
-  "Wraps region."
-
-  )
+  (interactive)
+  "Wraps region with LEFT and RIGHT."
+  (let ((wrap-region-beginning beg) (wrap-region-end end))
+    (run-hooks 'wrap-region-before-hook)
+    (save-excursion
+      (goto-char beg)
+      (insert left)
+      (goto-char (+ end (length left)))
+      (insert right))
+    (run-hooks 'wrap-region-after-hook)))
 
 (defun wrap-region-corresponding-punctuation (punctuation)
   "Returns the corresponding punctuation to the given punctuation
