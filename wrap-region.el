@@ -25,9 +25,9 @@
 ;;
 ;; Wrap region is a minor mode that wraps a region. That of course
 ;; only happens when there is a region selected in the buffer. If no
-;; region is selected that punctation is inserted. And if
+;; region is selected that punctuation is inserted. And if
 ;; `wrap-region-insert-twice' is set to t, the corresponding
-;; punctation is inserted as weel, and the cursor is placed between
+;; punctuation is inserted as weel, and the cursor is placed between
 ;; them. An exception to this is if `wrap-region-tag-active' is set
 ;; to t. Then "<" will be interped as a markup tag (<tag>...</tag>),
 ;; and that tag will wrap the region.
