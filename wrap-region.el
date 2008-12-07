@@ -105,13 +105,19 @@ and wrap-region-end which is the end of the region.")
 (defun wrap-region-with-tag-or-insert ()
   "Wraps a region with a tag if any region is selected.
 Otherwise the punctuation(s) are inserted."
-  
-  )
+  (interactive)
+  (if mark-active
+      (call-interactively 'wrap-region-with-tag)
+    (wrap-region-insert left)))
 
 (defun wrap-region-with-tag (tag)
   "Wraps a region with a tag."
-
-  )
+  (interactive "*sTag (with optional attributes): ")
+  (let* ((elements (split-string tag " "))
+         (tag-name-left (car elements))
+         (tag-right (concat "</" tag-name-left ">"))
+         (tag-left (concat "<" (if (= (length elements) 1) tag-name-left tag) ">")))
+    (wrap-region tag-left tag-right (region-beginning) (region-end))))
 
 (defun wrap-region-insert (left)
   "Inserts LEFT or LEFT and it's corresponding punctuation
