@@ -146,7 +146,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst wrap-region-version "0.0.1"
-  "Wrap region version.")
+  "Wrap region version. This is how the version numbering works:
+MAJOR_FEATURE_UPDATE.MINOR_FEATURE_UPDATE.BUGFIX")
 
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
