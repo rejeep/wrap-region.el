@@ -134,20 +134,9 @@
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;; History ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; DATE          VERSION    UPDATES/CHANGES
-;; 2008-12-07    0.0.1      First version released.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defconst wrap-region-version "0.0.1"
-  "Wrap region version. This is how the version numbering works:
-MAJOR_FEATURE_UPDATE.MINOR_FEATURE_UPDATE.BUGFIX")
 
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
