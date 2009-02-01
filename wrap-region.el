@@ -245,7 +245,6 @@ customized depending on the major mode. MODE argument
 is optional and will be set to `major-mode' as default."
   (puthash (or mode major-mode) punctuations wrap-region-mode-punctuations))
 
-;;;###autoload
 (define-minor-mode wrap-region-mode
   "Wrap region with punctuations or insert."
   :init-value nil
@@ -259,7 +258,6 @@ is optional and will be set to `major-mode' as default."
           (define-key wrap-region-mode-map key `(lambda () (interactive) (wrap-region-with-punctuation-or-insert ,key))))
         (if wrap-region-tag-active
             (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))))
-;;;###autoload
 
 (provide 'wrap-region)
 
