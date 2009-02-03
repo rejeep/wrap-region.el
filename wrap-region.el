@@ -138,11 +138,18 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defcustom wrap-region-insert-twice t
+  "If this is true, when inserting a punctuation,
+the corresponding punctuation will be inserted after and
+the cursor will be placed between them."
+  :group 'wrap-region)
+
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
 
 (defvar wrap-region-punctuations-table (make-hash-table :test 'equal)
-  "A list with all possible punctuations and their right corresponding punctuation.")
+  "A list with all possible punctuations and their right
+  corresponding punctuation.")
 
 (puthash "\"" "\"" wrap-region-punctuations-table)
 (puthash "'"  "'"  wrap-region-punctuations-table)
@@ -162,11 +169,6 @@ as a tag or a regular punctuation.")
   "Use this if you want mode specific punctuations.
 Key is the symbol name of the major mode and the value is a list
 of punctuations.")
-
-(defvar wrap-region-insert-twice t
-  "If this is true, when inserting a punctuation,
-the corresponding punctuation will be inserted after and
-the cursor will be placed between them.")
 
 (defvar wrap-region-before-hook '()
   "Evaluated before the region is wrapped.
