@@ -142,7 +142,8 @@
   "Keymap for `wrap-region-mode'.")
 
 (defvar wrap-region-punctuations-table (make-hash-table :test 'equal)
-  "A list with all possible punctuations and their right corresponding punctuation.")
+  "A list with all possible punctuations and their right
+  corresponding punctuation.")
 
 (puthash "\"" "\"" wrap-region-punctuations-table)
 (puthash "'"  "'"  wrap-region-punctuations-table)
