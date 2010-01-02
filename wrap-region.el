@@ -110,20 +110,18 @@ the cursor will be placed between them."
 (puthash "\\" "\\" wrap-region-punctuations-table)
 
 (defvar wrap-region-tag-active nil
-  "This variable tells whether < are to be used
-as a tag or a regular punctuation.")
+  "This variable tells whether < are to be used as a tag or a regular
+punctuation.")
 (make-variable-buffer-local 'wrap-region-tag-active)
 
 (defvar wrap-region-mode-punctuations (make-hash-table)
-  "Use this if you want mode specific punctuations.
-Key is the symbol name of the major mode and the value is a list
-of punctuations.")
+  "Use this if you want mode specific punctuations.  Key is the symbol
+name of the major mode and the value is a list of punctuations.")
 
 (defvar wrap-region-before-hook '()
-  "Evaluated before the region is wrapped.
-Two variables are available in the hook:
-wrap-region-beginning which is the beginning of the region
-and wrap-region-end which is the end of the region.")
+  "Evaluated before the region is wrapped.  Two variables are
+available in the hook: wrap-region-beginning which is the beginning of
+the region and wrap-region-end which is the end of the region.")
 
 (defvar wrap-region-after-hook '()
   "Evaluated after the region is wrapped.
@@ -143,8 +141,8 @@ and wrap-region-end which is the end of the region.")
   (wrap-region left right (region-beginning) (region-end)))
 
 (defun wrap-region-with-tag-or-insert ()
-  "Wraps a region with a tag if any region is selected.
-Otherwise the punctuation(s) are inserted."
+  "Wraps a region with a tag if any region is selected.  Otherwise the
+punctuation(s) are inserted."
   (interactive)
   (if mark-active
       (call-interactively 'wrap-region-with-tag)
@@ -160,8 +158,8 @@ Otherwise the punctuation(s) are inserted."
     (wrap-region tag-left tag-right (region-beginning) (region-end))))
 
 (defun wrap-region-insert (left)
-  "Inserts LEFT or LEFT and it's corresponding punctuation
-if `wrap-region-insert-twice' is set to t."
+  "Inserts LEFT or LEFT and it's corresponding punctuation if
+`wrap-region-insert-twice' is set to t."
   (insert left)
   (cond (wrap-region-insert-twice
          (insert (wrap-region-corresponding-punctuation left))
@@ -179,8 +177,8 @@ if `wrap-region-insert-twice' is set to t."
     (run-hooks 'wrap-region-after-hook)))
 
 (defun wrap-region-corresponding-punctuation (punctuation)
-  "Returns the corresponding punctuation to the given punctuation
-or nil if the punctuation does not exists."
+  "Returns the corresponding punctuation to the given punctuation or
+nil if the punctuation does not exists."
   (gethash punctuation wrap-region-punctuations-table))
 
 (defun wrap-region-add-punctuation (left right)
@@ -188,9 +186,9 @@ or nil if the punctuation does not exists."
   (puthash left right wrap-region-punctuations-table))
 
 (defun wrap-region-set-mode-punctuations (punctuations &optional mode)
-  "Use this when the punctuations should be
-customized depending on the major mode. MODE argument
-is optional and will be set to `major-mode' as default."
+  "Use this when the punctuations should be customized depending on
+the major mode. MODE argument is optional and will be set to
+`major-mode' as default."
   (puthash (or mode major-mode) punctuations wrap-region-mode-punctuations))
 
 (define-minor-mode wrap-region-mode
