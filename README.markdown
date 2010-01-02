@@ -6,13 +6,13 @@ with a tag instead of a punctuation.
 
 ## Installation
 Add wrap-region to Emacs load-path
-(add-to-list 'load-path "/path/to/directory/or/file")
+    (add-to-list 'load-path "/path/to/directory/or/file")
 
 Then require wrap-region
-(require 'wrap-region)
+    (require 'wrap-region)
 
 To start wrap-region
-(wrap-region-mode t) or M-x wrap-region-mode
+    (wrap-region-mode t) or M-x wrap-region-mode
 
 Or if you want it to be done automatically
-(add-hook 'ruby-mode-hook 'wrap-region-mode)
+    (add-hook 'ruby-mode-hook 'wrap-region-mode)
