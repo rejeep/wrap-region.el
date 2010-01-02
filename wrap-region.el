@@ -1,142 +1,91 @@
-;;; wrap-region.el --- Wrap text with punctation or markup tag.
+;;; wrap-region.el --- Wrap text with punctation or markup tag
 
-;; Copyright 2008  Johan Andersson
+;; Copyright (C) 2008 Johan Andersson
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;; License ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; This program is free software; you can redistribute it and/or
-;; modify it under the terms of the GNU General Public License as
-;; published by the Free Software Foundation; either version 2 of
-;; the License, or (at your option) any later version.
-;;
-;; This program is distributed in the hope that it will be
-;; useful, but WITHOUT ANY WARRANTY; without even the implied
-;; warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-;; PURPOSE.  See the GNU General Public License for more details.
-;;
-;; You should have received a copy of the GNU General Public
-;; License along with this program; if not, write to the Free
-;; Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
-;; MA 02111-1307 USA
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Author: Johan Andersson <johan.rejeep@gmail.com>
+;; Maintainer: Johan Andersson <johan.rejeep@gmail.com>
+;; Version: 0.0.1
+;; Keywords: speed, convenience
+;; URL: http://github.com/rejeep/wrap-region
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;; Vocabulary ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; Punctuation - Is everything in written language other than the
-;; actual letters or numbers ([, (, ., ", etc...).
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; This file is NOT part of GNU Emacs.
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;; Description ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; Wrap region is a minor mode that wraps a region. That of course
-;; only happens when there is a region selected in the buffer. If no
-;; region is selected that punctuation is inserted. And if
-;; `wrap-region-insert-twice' is set to t, the corresponding
-;; punctuation is inserted as weel, and the cursor is placed between
-;; them. An exception to this is if `wrap-region-tag-active' is set
-;; to t. Then "<" will be interped as a markup tag (<tag>...</tag>),
-;; and that tag will wrap the region.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; License:
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;; Installation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; To use this mode you first have to make sure that this file is in
-;; your load-path variable:
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 3, or (at your option)
+;; any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with GNU Emacs; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+;;; Commentary:
+
+;; wrap-region is a minor mode that wraps text with punctuations. For
+;; some tagged markup modes, such as HTML and XML, it wraps a region
+;; with a tag instead of a punctuation.
+
+;; To use wrap-region, make sure that this file is in your load-path
 ;; (add-to-list 'load-path "/path/to/directory/or/file")
 ;;
-;; Then require it:
+;; Then require wrap-region
 ;; (require 'wrap-region)
-;;
-;; Then start it:
+
+;; To start wrap-region
 ;; (wrap-region-mode t) or M-x wrap-region-mode
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;; Commentary ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; wrap-region is buffer local, so if you want to use it, hook it up.
+;; (add-hook 'ruby-mode-hook 'wrap-region-mode)
 ;;
-;; First of all you want to activate this mode for all major modes
-;; you want to use this in:
-;;
-;; (add-hook 'ruby-mode-hook
-;;           '(lambda()
-;;              (wrap-region-mode t)
-;;              ))
-;;
-;; By only doing this you will activate all default punctuations. But
-;; you may not want some punctuation to be used for a certain mode. If
-;; That is the case you want to use `wrap-region-set-mode-punctuations'.
-;;
+;; This will enable all of wrap-region's default punctuations in
+;; ruby-mode. To enable only a few punctuations, use
+;; `wrap-region-set-mode-punctuations'.
 ;; (add-hook 'ruby-mode-hook
 ;;           '(lambda()
 ;;              (wrap-region-set-mode-punctuations '("\"" "'" "("))
-;;              (wrap-region-mode t)
-;;              ))
-;;
-;; This will activate the punctuations ", ', and ( only, and it will be
-;; activated for ruby-mode.
+;;              (wrap-region-mode t)))
 ;;
 ;; You can also pass a major mode to this function if you want to set
 ;; all mode specific punctuations at the same place:
 ;;
 ;; (wrap-region-set-mode-punctuations '("\"" "'" "(") 'ruby-mode)
 ;; (wrap-region-set-mode-punctuations '("[" "{" "(") 'java-mode)
+
+;; If no region is selected so there's nothing to wrap, wrap-region
+;; will insert that punctuation, unless if `wrap-region-insert-twice'
+;; set to t. In this case two punctuations will be inserted and the
+;; cursor placed in between them.
+
+;; By default "<" is used as a regular punctuation with ">" as it's
+;; corresponding. This is probably the wanted behavior in languages
+;; such as Java, where this is syntax can be used:
+;; Set<String> set = new HashSet<String>();
 ;;
+;; But in markup languages, such as HTML and XML, you use tags and
+;; want to make use of the tags functionality. To enable it, set
+;; `wrap-region-tag-active' to t before activating wrap-region.
+;; (add-hook 'rhtml-mode-hook
+;;           '(lambda()
+;;              (setq wrap-region-tag-active t)
+;;              (wrap-region-mode t)))
 ;;
-;; You can also customize if you want to insert one or two punctuations
-;; (and then move in between them) if there is no region selected.
-;; This is configured by the variable `wrap-region-insert-twice'.
-;; t means to insert two punctuations and then move in between them,
-;; and nil means to only insert that punctuation.
-;;
-;; Insert both and move in between:
-;; (setq wrap-region-insert-twice t)
-;;
-;; Insert punctuation only:
-;; (setq wrap-region-insert-twice nil)
-;;
-;;
-;; If noting is said, "<" will be used as a regular punctuation with
-;; ">" as it's corresponding. This is desirable in languages such as
-;; Java where this is syntax is used:
-;; Set<Object> set = new HashSet<Object>();
-;;
-;; But in markup languages, such as x(HTML), XML, etc... you use tags
-;; and want to make use of the tags functionality. That is controlled
-;; by the variable `wrap-region-tag-active'. By setting this to t,
-;; when pressing "<" you will be prompted to enter a tag, which you
-;; can do in two ways.
-;;
-;; The first is to enter some tag such as "div". The selected region
-;; will then be wrapped with the div tag:
-;; <div>selected region</div>
-;;
-;; The second way is to also enter attributes for the tag, such as
-;; class, id, name, etc... If you enter:
-;; div class="some_class" id="some_id"
-;; you will end up with this:
-;; <div class="some_class" id="some_id">selected region</div>
-;;
-;;
-;; This mode comes with some default punctuations
-;; (see `wrap-region-punctuations-table'). This might not always be
-;; enough. And there's where `wrap-region-add-punctuation' comes
-;; in handy. As an example we add # as a punctuation and # as it's
-;; corresponding punctuation:
+;; You can now wrap a region with a tag. When asked for the tag, you
+;; may include attributes, such as class or id.
+
+;; wrap-region comes with a few default punctuations (see
+;; `wrap-region-punctuations-table'). You can add you own punctuations
+;; using `wrap-region-add-punctuation'.
 ;; (wrap-region-add-punctuation "#" "#")
-;;
-;; Note that even if you use `wrap-region-set-mode-punctuations'
-;; for mode specific punctuations, you still need to use
-;; `wrap-region-add-punctuation'. This is because that's how the
-;; corresponding punctuation is found.
-;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Code:
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variables ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defcustom wrap-region-insert-twice nil
   "If this is true, when inserting a punctuation,
@@ -181,9 +130,6 @@ and wrap-region-end which is the end of the region.")
 Two variables are available in the hook:
 wrap-region-beginning which is the beginning of the region
 and wrap-region-end which is the end of the region.")
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun wrap-region-with-punctuation-or-insert (left)
   "Wraps a region if any, else inserts the punctuation(s)."
