@@ -15,4 +15,4 @@ To start wrap-region
     (wrap-region-mode t) or M-x wrap-region-mode
 
 Or if you want it to be done automatically
-    (add-hook 'ruby-mode-hook 'wrap-region-mode)
+    (add-hook 'find-file-hook 'wrap-region-mode)
