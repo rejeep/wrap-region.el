@@ -1,4 +1,4 @@
-;;; wrap-region.el --- Wrap text with punctation or markup tag
+;;; wrap-region.el --- Wrap text with punctation or tag
 
 ;; Copyright (C) 2008 Johan Andersson
 
