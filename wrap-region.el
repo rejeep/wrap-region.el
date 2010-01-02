@@ -42,7 +42,7 @@
 ;; To start wrap-region
 ;; (wrap-region-mode t) or M-x wrap-region-mode
 ;;
-;; wrap-region is buffer local, so if you want to use it, hook it up.
+;; wrap-region is buffer local, so hook it up.
 ;; (add-hook 'ruby-mode-hook 'wrap-region-mode)
 ;;
 ;; This will enable all of wrap-region's default punctuations in
