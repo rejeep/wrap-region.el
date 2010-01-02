@@ -1,3 +1,0 @@
-Wrap region is a minor mode for Emacs that wraps a region (if any) with a punctation(s) or a markup tag. Read source file comments for information on how to install and use.
-
-For Gentoo users, there's an ebuild for it at http://github.com/rejeep/ebuilds
