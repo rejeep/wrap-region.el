@@ -191,6 +191,7 @@ the major mode. MODE argument is optional and will be set to
 `major-mode' as default."
   (puthash (or mode major-mode) punctuations wrap-region-mode-punctuations))
 
+;;;###autoload
 (define-minor-mode wrap-region-mode
   "Wrap region with punctuations or insert."
   :init-value nil
