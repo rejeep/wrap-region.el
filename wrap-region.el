@@ -33,7 +33,7 @@
 ;; some tagged markup modes, such as HTML and XML, it wraps a region
 ;; with a tag instead of a punctuation.
 
-;; To use wrap-region, make sure that this file is in your load-path
+;; To use wrap-region, make sure that this file is in Emacs load-path
 ;; (add-to-list 'load-path "/path/to/directory/or/file")
 ;;
 ;; Then require wrap-region
