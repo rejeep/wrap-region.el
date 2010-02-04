@@ -63,8 +63,7 @@ Feature: Wrap Region
       """
       (add-hook 'text-mode-hook
             (lambda()
-              (wrap-region-set-mode-punctuations '("["))
-              ))
+              (wrap-region-set-mode-punctuations '("["))))
       """
     When I "activate" "text" mode
     And I select "is some"
