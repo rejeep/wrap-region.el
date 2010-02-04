@@ -13,59 +13,59 @@ Feature: Wrap Region
     And there is no region selected
 
   Scenario: No wrap when wrap-region is inactive
-    Given I "inactivate" "wrap-region" mode
+    Given I disable wrap-region-mode
     When I select "is some"
     And I press "("
     Then I should see "This (is some text"
 
   Scenario: Wrap region with punctuations
-    Given I "activate" "wrap-region" mode
+    Given I enable wrap-region-mode
     When I select "is some"
     And I press "("
     Then I should see "This (is some) text"
 
   Scenario: Insert once
-    Given insert twice is turned "off"
-    And I "activate" "wrap-region" mode
-    When I press "("
+    Given insert twice is disabled
+    When I enable wrap-region-mode
+    And I press "("
     Then I should see "("
     And I should not see "()"
 
   Scenario: Insert twice
-    Given insert twice is turned "on"
-    And I "activate" "wrap-region" mode
-    When I press "("
+    Given insert twice is enabled
+    When I enable wrap-region-mode
+    And I press "("
     Then I should see "()"
 
   Scenario: Before hook
-    And I "activate" "wrap-region" mode
-    And the following before hook:
+    Given this before hook:
       """
       (forward-word)
       (transpose-words 1)
       """
-    When I select "is some"
+    When I enable wrap-region-mode
+    And I select "is some"
     And I press "("
     Then I should see "This (some is) text"
 
   Scenario: After hook
-    And I "activate" "wrap-region" mode
-    And the following after hook:
+    Given this after hook:
       """
       (replace-regexp "\\((.+)\\)" "(wee...)" nil (point-min) (point-max))
       """
-    When I select "is some"
+    When I enable wrap-region-mode
+    And I select "is some"
     And I press "("
     Then I should see "This (wee...) text"
 
   Scenario: Set specific punctuations
-    Given the following is loaded
+    Given this is loaded:
       """
       (add-hook 'text-mode-hook
             (lambda()
               (wrap-region-set-mode-punctuations '("["))))
       """
-    When I "activate" "text" mode
+    When I enable wrap-region-mode
     And I select "is some"
     And I press "["
     Then I should see "This [is some] text"
@@ -75,11 +75,11 @@ Feature: Wrap Region
     And I should not see "This [<is some>] text"
 
   Scenario: Set specific punctuations by passing mode
-    Given the following is loaded
+    Given this is loaded:
       """
       (wrap-region-set-mode-punctuations '("[") 'text-mode)
       """
-    When I "activate" "text" mode
+    When I enable wrap-region-mode
     And I select "is some"
     And I press "["
     Then I should see "This [is some] text"
@@ -89,15 +89,15 @@ Feature: Wrap Region
     And I should not see "This [<is some>] text"
 
   Scenario: Add punctuation
-    Given the following is loaded
+    Given this is loaded:
       """
       (wrap-region-add-punctuation "#" "#")
       """
-    And I "activate" "wrap-region" mode
+    When I enable wrap-region-mode
     And I select "is some"
     And I press "["
     Then I should see "This [is some] text"
-    And I select "is some"
+    When I select "is some"
     And I press "#"
     Then I should see "This [#is some#] text"
 
@@ -106,9 +106,9 @@ Feature: Wrap Region
     
   Scenario: Wrap region with tag
     Given I am in the "*wrap-region*" buffer
-    And wrap-region tag is "active"
-    And I "activate" "wrap-region" mode
-    When I select "is some"
+    And wrap-region tag is active
+    When I enable wrap-region-mode
+    And I select "is some"
     And I start a kbd sequence
     And I press "<"
     And I type "div"
@@ -118,9 +118,9 @@ Feature: Wrap Region
 
   Scenario: Wrap region with tag including attribute
     Given I am in the "*wrap-region*" buffer
-    And wrap-region tag is "active"
-    And I "activate" "wrap-region" mode
-    When I select "is some"
+    And wrap-region tag is active
+    When I enable wrap-region-mode
+    And I select "is some"
     And I start a kbd sequence
     And I press "<"
     And I type "div id='menu'"
