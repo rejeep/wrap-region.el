@@ -1,7 +1,7 @@
 Feature: Wrap Region
-  In order to wrap text
-  As a user
-  I want to wrap text with different stuff
+  In order to put text between puctuations and tags
+  As an Emacs user
+  I want to wrap it
 
   Background:
     Given I am in the "*wrap-region*" buffer
