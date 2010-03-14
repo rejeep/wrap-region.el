@@ -9,7 +9,7 @@ with a tag instead of a punctuation.
 ### Manually
 First download the **wrap-region.el** file. If you use git you can
 fetch it from Github
-    $ git clone git://github.com/rejeep/wrap-region.git ~/.emacs.d/packages
+    $ git clone git://github.com/rejeep/wrap-region.git ~/.emacs.d/packages/wrap-region
     
 Make sure it's in Emacs load-path
     (add-to-list 'load-path "~/.emacs.d/packages/wrap-region")
