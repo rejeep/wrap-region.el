@@ -205,6 +205,23 @@ the major mode. MODE argument is optional and will be set to
           (define-key wrap-region-mode-map key `(lambda () (interactive) (wrap-region-with-punctuation-or-insert ,key))))
         (if wrap-region-tag-active
             (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))))
+ 
+;;;###autoload
+(defun turn-on-wrap-region-mode ()
+  "Turn on `wrap-region-mode'"
+  (interactive)
+  (wrap-region-mode +1))
+ 
+;;;###autoload
+(defun turn-off-wrap-region-mode ()
+  "Turn off `wrap-region-mode'"
+  (interactive)
+  (wrap-region-mode -1))
+ 
+;;;###autoload
+(define-globalized-minor-mode wrap-region-global-mode
+  wrap-region-mode
+  turn-on-wrap-region-mode)
 
 (provide 'wrap-region)
 

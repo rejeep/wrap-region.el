@@ -25,8 +25,11 @@ from there.
 To start wrap-region
     (wrap-region-mode t) or M-x wrap-region-mode
 
-Or if you want it to be done automatically
-    (add-hook 'find-file-hook 'wrap-region-mode)
+Start only in specific mode
+    (add-hook 'ruby-mode-hook 'wrap-region)
+
+Activate wrap-region in all buffers
+    (wrap-region-global-mode t)
 
 Try selecting a region and press on of the punctuation keys, for
 example **"**, **{** or **(**.
