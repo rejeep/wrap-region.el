@@ -45,6 +45,9 @@
 ;; wrap-region is buffer local, so hook it up.
 ;; (add-hook 'ruby-mode-hook 'wrap-region-mode)
 ;;
+;; Or activate it globally.
+;; (wrap-region-global-mode t)
+;;
 ;; This will enable all of wrap-region's default punctuations in
 ;; ruby-mode. To enable only a few punctuations, use
 ;; `wrap-region-set-mode-punctuations'.
