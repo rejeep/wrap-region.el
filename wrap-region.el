@@ -51,9 +51,9 @@
 ;;; Code:
 
 (defcustom wrap-region-insert-twice nil
-  "If this is true, when inserting a punctuation,
-the corresponding punctuation will be inserted after and
-the cursor will be placed between them."
+  "If this is non nil, when inserting a punctuation, the corresponding
+punctuation will be inserted after and the cursor will be placed
+between them."
   :group 'wrap-region)
 
 (defvar wrap-region-mode-map (make-sparse-keymap)
