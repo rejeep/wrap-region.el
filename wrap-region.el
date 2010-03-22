@@ -59,18 +59,16 @@ between them."
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
 
-(defvar wrap-region-punctuations-table (make-hash-table :test 'equal)
-  "A list with all possible punctuations and their right
-  corresponding punctuation.")
-
-(puthash "\"" "\"" wrap-region-punctuations-table)
-(puthash "'"  "'"  wrap-region-punctuations-table)
-(puthash "("  ")"  wrap-region-punctuations-table)
-(puthash "{"  "}"  wrap-region-punctuations-table)
-(puthash "["  "]"  wrap-region-punctuations-table)
-(puthash "<"  ">"  wrap-region-punctuations-table)
-(puthash "|"  "|"  wrap-region-punctuations-table)
-(puthash "\\" "\\" wrap-region-punctuations-table)
+(defvar wrap-region-punctuations-table
+  (let ((table (make-hash-table :test 'equal)))
+    (puthash "\"" "\"" table)
+    (puthash "'"  "'"  table)
+    (puthash "("  ")"  table)
+    (puthash "{"  "}"  table)
+    (puthash "["  "]"  table)
+    (puthash "<"  ">"  table)
+    table)
+  "A map with all punctuations and their right corresponding punctuation.")
 
 (defvar wrap-region-tag-active nil
   "This variable tells whether < are to be used as a tag or a regular
