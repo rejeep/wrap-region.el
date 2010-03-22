@@ -75,16 +75,8 @@ between them."
 punctuation.")
 (make-variable-buffer-local 'wrap-region-tag-active)
 
-(defvar wrap-region-before-hook '()
-  "Evaluated before the region is wrapped.  Two variables are
-available in the hook: wrap-region-beginning which is the beginning of
-the region and wrap-region-end which is the end of the region.")
-
-(defvar wrap-region-after-hook '()
-  "Evaluated after the region is wrapped.
-Two variables are available in the hook:
-wrap-region-beginning which is the beginning of the region
-and wrap-region-end which is the end of the region.")
+(defvar wrap-region-hook '()
+  "Hook for `wrap-region-mode'.")
 
 (defun wrap-region-with-punctuation-or-insert (left)
   "Wraps a region if any, else inserts the punctuation(s)."
