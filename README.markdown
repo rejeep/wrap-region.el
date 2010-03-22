@@ -1,5 +1,5 @@
 # Wrap Region
-wrap-region is a minor mode for Emacs that wraps a region with
+Wrap Region is a minor mode for Emacs that wraps a region with
 punctuations. For tagged markup modes, such as HTML and XML, it wraps
 with tags.
 
