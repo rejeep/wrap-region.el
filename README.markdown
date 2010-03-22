@@ -1,35 +1,26 @@
 # Wrap Region
-
-wrap-region is a minor mode that wraps text with punctuations. For
-some tagged markup modes, such as HTML and XML, it wraps a region
-with a tag instead of a punctuation.
+wrap-region is a minor mode for Emacs that wraps a region with
+punctuations. For tagged markup modes, such as HTML and XML, it wraps
+with tags.
 
 ## Installation
 
 ### Manually
-First download the **wrap-region.el** file. If you use git you can
-fetch it from Github
-    $ git clone git://github.com/rejeep/wrap-region.git ~/.emacs.d/packages/wrap-region
+Download **wrap-region.el** and put in Emacs load path. Then require it:
+    $ git clone git://github.com/rejeep/wrap-region.git ~/.emacs.d
     
-Make sure it's in Emacs load-path
-    (add-to-list 'load-path "~/.emacs.d/packages/wrap-region")
-    
-Then require it
+    (add-to-list 'load-path "~/.emacs.d/wrap-region")
     (require 'wrap-region)
-    
-### ELPA
-wrap-region is in ELPA. If you use ELPA, I recommend you to fetch it
-from there.
 
 ## Usage
-To start wrap-region
+ To start wrap-region:
     (wrap-region-mode t) or M-x wrap-region-mode
 
-Start only in specific mode
+If you only want wrap-region active in some mode, use a hook:
     (add-hook 'ruby-mode-hook 'wrap-region)
 
-Activate wrap-region in all buffers
+Or if you want to activate it in all buffers, use the global mode:
     (wrap-region-global-mode t)
 
-Try selecting a region and press on of the punctuation keys, for
-example **"**, **{** or **(**.
+Now select a region and hit one of the punctuation keys (**"**, **{**,
+**(**, ...). If you are in a tag mode, try select a region and hit **<**.
