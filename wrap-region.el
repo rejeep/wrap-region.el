@@ -121,10 +121,6 @@ between them."
          (right (concat "</" tag-name ">")))
     (wrap-region left right (region-beginning) (region-end))))
 
-;; (defun wrap-region-add-punctuation (left right)
-;;   "Adds a new punctuation pair to the punctuation list."
-;;   (puthash left right wrap-region-punctuations-table))
-
 (defun wrap-region-right-buddy (left)
   "Returns right buddy to LEFT."
   (gethash left wrap-region-punctuations-table))
@@ -136,6 +132,10 @@ between them."
            wrap-region-punctuations-table)
   (if (member major-mode wrap-region-tag-active-modes)
       (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))
+
+(defun wrap-region-add-punctuation (left right)
+  "Adds a new punctuation pair."
+  (puthash left right wrap-region-punctuations-table))
 
 ;;;###autoload
 (define-minor-mode wrap-region-mode
