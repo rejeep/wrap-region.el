@@ -70,10 +70,8 @@ between them."
     table)
   "A map with all punctuations and their right corresponding punctuation.")
 
-(defvar wrap-region-tag-active nil
-  "This variable tells whether < are to be used as a tag or a regular
-punctuation.")
-(make-variable-buffer-local 'wrap-region-tag-active)
+(defvar wrap-region-tag-active-modes '(html-mode sgml-mode rhtml-mode)
+  "List of modes where < should be used as a tag instead of a regular punctuation.")
 
 (defvar wrap-region-hook '()
   "Hook for `wrap-region-mode'.")
