@@ -82,7 +82,9 @@ between them."
   (interactive)
   (let ((key (char-to-string last-input-char)))
     (if mark-active
-        (wrap-region key (wrap-region-right-buddy key) (region-beginning) (region-end))
+        (if (and (member major-mode wrap-region-tag-active-modes) (string= key "<"))
+            (wrap-region-with-tag)
+          (wrap-region key (wrap-region-right-buddy key) (region-beginning) (region-end)))
       (wrap-region-insert key))))
 
 (defun wrap-region (left right beg end)
@@ -105,17 +107,10 @@ between them."
   (save-excursion
     (insert (wrap-region-right-buddy left))))
 
-(defun wrap-region-with-tag-or-insert ()
-  "Wraps region with tag if region is active. Otherwise inserts punctuation."
-  (interactive)
-  (if mark-active
-      (let ((tag (read-string "Enter Tag (with optional attributes): ")))
-        (wrap-region-with-tag tag))
-    (wrap-region-insert "<")))
-
-(defun wrap-region-with-tag (tag)
+(defun wrap-region-with-tag ()
   "Wraps region with tag."
-  (let* ((split (split-string tag " "))
+  (let* ((tag (read-string "Enter Tag (with optional attributes): "))
+         (split (split-string tag " "))
          (tag-name (car split))
          (left (concat "<" tag ">"))
          (right (concat "</" tag-name ">")))
@@ -129,9 +124,7 @@ between them."
   "Defines all key bindings."
   (maphash (lambda (left right)
              (define-key wrap-region-mode-map left 'wrap-region-with-punctuation-or-insert))
-           wrap-region-punctuations-table)
-  (if (member major-mode wrap-region-tag-active-modes)
-      (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))
+           wrap-region-punctuations-table))
 
 (defun wrap-region-add-punctuation (left right)
   "Adds a new punctuation pair."
