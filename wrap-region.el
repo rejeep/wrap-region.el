@@ -173,7 +173,6 @@ If the executed command moved the cursor, then insert twice is set inactive."
            (/= (point) wrap-region-state-pos))
       (wrap-region-reset)))
 
-;; TODO: Don't use hardcoded `delete-backward-char', but a fallback
 (defun wrap-region-backward-delete-char ()
   "Deletes an enclosing pair backwards if insert twice is active.
  Otherwise it falls back to default."
@@ -181,7 +180,10 @@ If the executed command moved the cursor, then insert twice is set inactive."
   (cond (wrap-region-state-active
          (forward-char 1)
          (backward-delete-char 2))
-        (t (call-interactively 'delete-backward-char)))
+        (t
+         (let ((wrap-region-mode nil)
+               (original-func (key-binding (kbd "DEL"))))
+           (call-interactively original-func))))
   (wrap-region-reset))
 
 (defun wrap-region-define-keys ()
