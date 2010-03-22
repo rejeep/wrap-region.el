@@ -139,33 +139,34 @@ the major mode. MODE argument is optional and will be set to
   "Returns right buddy to LEFT."
   (gethash left wrap-region-punctuations-table))
 
+(defun wrap-region-define-keys ()
+  "Defines all key bindings."
+  (maphash (lambda (left right)
+             (define-key wrap-region-mode-map left 'wrap-region-with-punctuation-or-insert))
+           wrap-region-punctuations-table))
+
 ;;;###autoload
 (define-minor-mode wrap-region-mode
-  "Wrap region with punctuations or insert."
+  "Wrap region with stuff."
   :init-value nil
   :lighter " wr"
   :keymap wrap-region-mode-map
-  (if wrap-region-mode
-      (let ((punctuations (gethash major-mode wrap-region-mode-punctuations)))
-        (unless punctuations
-          (maphash (lambda (k v) (add-to-list 'punctuations k)) wrap-region-punctuations-table))
-        (dolist (key punctuations)
-          (define-key wrap-region-mode-map key `(lambda () (interactive) (wrap-region-with-punctuation-or-insert ,key))))
-        (if wrap-region-tag-active
-            (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))))
- 
+  (when wrap-region-mode
+    (wrap-region-define-keys)
+    (run-hooks 'wrap-region-hook)))
+
 ;;;###autoload
 (defun turn-on-wrap-region-mode ()
   "Turn on `wrap-region-mode'"
   (interactive)
   (wrap-region-mode +1))
- 
+
 ;;;###autoload
 (defun turn-off-wrap-region-mode ()
   "Turn off `wrap-region-mode'"
   (interactive)
   (wrap-region-mode -1))
- 
+
 ;;;###autoload
 (define-globalized-minor-mode wrap-region-global-mode
   wrap-region-mode
