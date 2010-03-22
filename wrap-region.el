@@ -190,7 +190,8 @@ If the executed command moved the cursor, then insert twice is set inactive."
       (define-key wrap-region-mode-map (kbd "DEL") 'wrap-region-backward-delete-char))
   (maphash (lambda (left right)
              (define-key wrap-region-mode-map left 'wrap-region-with-punctuation-or-insert)
-             (define-key wrap-region-mode-map right 'wrap-region-with-punctuation-or-insert))
+             (if wrap-region-insert-twice
+                 (define-key wrap-region-mode-map right 'wrap-region-with-punctuation-or-insert)))
            wrap-region-punctuations-table))
 
 ;;;###autoload
