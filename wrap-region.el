@@ -105,6 +105,13 @@ punctuation(s) are inserted."
          (tag-right (concat "</" tag-name ">"))
          (tag-left (concat "<" (if (= (length elements) 1) tag-name tag) ">")))
     (wrap-region tag-left tag-right (region-beginning) (region-end))))
+(defun wrap-region (left right beg end)
+  "Wraps region from BEG to END with LEFT and RIGHT."
+  (save-excursion
+    (goto-char beg)
+    (insert left)
+    (goto-char (+ end (length left)))
+    (insert right)))
 
 (defun wrap-region-insert (left)
   "Inserts LEFT or LEFT and it's corresponding punctuation if
@@ -114,16 +121,6 @@ punctuation(s) are inserted."
          (insert (wrap-region-corresponding-punctuation left))
          (backward-char))))
 
-(defun wrap-region (left right beg end)
-  "Wraps region with LEFT and RIGHT."
-  (let ((wrap-region-beginning beg) (wrap-region-end end))
-    (run-hooks 'wrap-region-before-hook)
-    (save-excursion
-      (goto-char beg)
-      (insert left)
-      (goto-char (+ end (length left)))
-      (insert right))
-    (run-hooks 'wrap-region-after-hook)))
 
 (defun wrap-region-add-punctuation (left right)
   "Adds a new punctuation pair to the punctuation list."
