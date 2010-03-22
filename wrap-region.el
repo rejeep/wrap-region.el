@@ -29,9 +29,9 @@
 
 ;;; Commentary:
 
-;; wrap-region is a minor mode that wraps text with punctuations. For
-;; tagged markup modes, such as HTML and XML, it wraps a region
-;; with a tag instead of punctuations.
+;; wrap-region is a minor mode that wraps a region with
+;; punctuations. For tagged markup modes, such as HTML and XML, it
+;; wraps with tags.
 ;;
 ;; To use wrap-region, make sure that this file is in Emacs load-path:
 ;; (add-to-list 'load-path "/path/to/directory/or/file")
