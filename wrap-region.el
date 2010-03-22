@@ -129,11 +129,6 @@ punctuation(s) are inserted."
   "Adds a new punctuation pair to the punctuation list."
   (puthash left right wrap-region-punctuations-table))
 
-(defun wrap-region-set-mode-punctuations (punctuations &optional mode)
-  "Use this when the punctuations should be customized depending on
-the major mode. MODE argument is optional and will be set to
-`major-mode' as default."
-  (puthash (or mode major-mode) punctuations wrap-region-mode-punctuations))
 
 (defun wrap-region-right-buddy (left)
   "Returns right buddy to LEFT."
