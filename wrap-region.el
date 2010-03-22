@@ -85,22 +85,6 @@ between them."
         (wrap-region key (wrap-region-right-buddy key) (region-beginning) (region-end))
       (wrap-region-insert key))))
 
-(defun wrap-region-with-tag-or-insert ()
-  "Wraps a region with a tag if any region is selected.  Otherwise the
-punctuation(s) are inserted."
-  (interactive)
-  (if mark-active
-      (call-interactively 'wrap-region-with-tag)
-    (wrap-region-insert "<")))
-
-(defun wrap-region-with-tag (tag)
-  "Wraps a region with a tag."
-  (interactive "*sTag (with optional attributes): ")
-  (let* ((elements (split-string tag " "))
-         (tag-name (car elements))
-         (tag-right (concat "</" tag-name ">"))
-         (tag-left (concat "<" (if (= (length elements) 1) tag-name tag) ">")))
-    (wrap-region tag-left tag-right (region-beginning) (region-end))))
 (defun wrap-region (left right beg end)
   "Wraps region from BEG to END with LEFT and RIGHT."
   (save-excursion
@@ -121,6 +105,22 @@ punctuation(s) are inserted."
   (save-excursion
     (insert (wrap-region-right-buddy left))))
 
+(defun wrap-region-with-tag-or-insert ()
+  "Wraps region with tag if region is active. Otherwise inserts punctuation."
+  (interactive)
+  (if mark-active
+      (let ((tag (read-string "Enter Tag (with optional attributes): ")))
+        (wrap-region-with-tag tag))
+    (wrap-region-insert "<")))
+
+(defun wrap-region-with-tag (tag)
+  "Wraps region with tag."
+  (let* ((split (split-string tag " "))
+         (tag-name (car split))
+         (left (concat "<" tag ">"))
+         (right (concat "</" tag-name ">")))
+    (wrap-region left right (region-beginning) (region-end))))
+
 ;; (defun wrap-region-add-punctuation (left right)
 ;;   "Adds a new punctuation pair to the punctuation list."
 ;;   (puthash left right wrap-region-punctuations-table))
@@ -133,7 +133,9 @@ punctuation(s) are inserted."
   "Defines all key bindings."
   (maphash (lambda (left right)
              (define-key wrap-region-mode-map left 'wrap-region-with-punctuation-or-insert))
-           wrap-region-punctuations-table))
+           wrap-region-punctuations-table)
+  (if (member major-mode wrap-region-tag-active-modes)
+      (define-key wrap-region-mode-map "<" 'wrap-region-with-tag-or-insert)))
 
 ;;;###autoload
 (define-minor-mode wrap-region-mode
