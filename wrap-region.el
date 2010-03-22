@@ -78,12 +78,14 @@ punctuation.")
 (defvar wrap-region-hook '()
   "Hook for `wrap-region-mode'.")
 
-(defun wrap-region-with-punctuation-or-insert (left)
-  "Wraps a region if any, else inserts the punctuation(s)."
+
+(defun wrap-region-with-punctuation-or-insert ()
+  "Wraps region if any. Otherwise insert punctuations."
   (interactive)
-  (if mark-active
-      (wrap-region left (wrap-region-corresponding-punctuation left) (region-beginning) (region-end))
-    (wrap-region-insert left)))
+  (let ((key (char-to-string last-input-char)))
+    (if mark-active
+        (wrap-region key (wrap-region-right-buddy key) (region-beginning) (region-end))
+      (wrap-region-insert key))))
 
 (defun wrap-region-with-punctuations (left right)
   "Wraps a region with LEFT and RIGHT."
@@ -125,11 +127,6 @@ punctuation(s) are inserted."
       (insert right))
     (run-hooks 'wrap-region-after-hook)))
 
-(defun wrap-region-corresponding-punctuation (punctuation)
-  "Returns the corresponding punctuation to the given punctuation or
-nil if the punctuation does not exists."
-  (gethash punctuation wrap-region-punctuations-table))
-
 (defun wrap-region-add-punctuation (left right)
   "Adds a new punctuation pair to the punctuation list."
   (puthash left right wrap-region-punctuations-table))
@@ -139,6 +136,10 @@ nil if the punctuation does not exists."
 the major mode. MODE argument is optional and will be set to
 `major-mode' as default."
   (puthash (or mode major-mode) punctuations wrap-region-mode-punctuations))
+
+(defun wrap-region-right-buddy (left)
+  "Returns right buddy to LEFT."
+  (gethash left wrap-region-punctuations-table))
 
 ;;;###autoload
 (define-minor-mode wrap-region-mode
