@@ -59,7 +59,7 @@
 ;; `wrap-region-punctuations-table' contains a few default
 ;; punctuations that wraps. You can add you own like this:
 ;; (wrap-region-add-punctuation "#" "#")
- 
+
 
 ;;; Code:
 
@@ -88,6 +88,12 @@ between them.")
 (defvar wrap-region-hook '()
   "Hook for `wrap-region-mode'.")
 
+(defvar wrap-region-state-active nil
+  "t if insert twice is active. nil otherwise.")
+
+(defvar wrap-region-state-pos nil
+  "The position when insert twice was last activated. nil if not active.")
+
 
 (defun wrap-region-with-punctuation-or-insert ()
   "Wraps region if any. Otherwise insert punctuations."
@@ -115,9 +121,15 @@ between them.")
 
 (defun wrap-region-insert-twice (left)
   "Inserts LEFT and its right buddy."
-  (insert left)
-  (save-excursion
-    (insert (wrap-region-right-buddy left))))
+  (cond ((and wrap-region-state-active (wrap-region-match left))
+         (forward-char 1)
+         (wrap-region-reset))
+        (t
+         (insert left)
+         (when (wrap-region-right-buddy left)
+           (save-excursion
+             (insert (wrap-region-right-buddy left)))
+           (wrap-region-activate)))))
 
 (defun wrap-region-with-tag ()
   "Wraps region with tag."
@@ -132,15 +144,53 @@ between them.")
   "Returns right buddy to LEFT."
   (gethash left wrap-region-punctuations-table))
 
-(defun wrap-region-define-keys ()
-  "Defines all key bindings."
-  (maphash (lambda (left right)
-             (define-key wrap-region-mode-map left 'wrap-region-with-punctuation-or-insert))
-           wrap-region-punctuations-table))
-
 (defun wrap-region-add-punctuation (left right)
   "Adds a new punctuation pair."
   (puthash left right wrap-region-punctuations-table))
+
+(defun wrap-region-match (key)
+  "Returns t if the current position is an enclosing match with
+KEY. nil otherwise."
+  (let ((before (char-to-string (char-before)))
+        (after  (char-to-string (char-after))))
+    (and (string= key after)
+         (string= after (wrap-region-right-buddy before)))))
+
+(defun wrap-region-reset ()
+  "Set insert twice to inactive."
+  (setq wrap-region-state-pos nil)
+  (setq wrap-region-state-active nil))
+
+(defun wrap-region-activate ()
+  "Set insert twice to active at current point."
+  (setq wrap-region-state-pos (point))
+  (setq wrap-region-state-active t))
+
+(defun wrap-region-command ()
+  "Called after a command is executed.
+If the executed command moved the cursor, then insert twice is set inactive."
+  (if (and wrap-region-state-active
+           (/= (point) wrap-region-state-pos))
+      (wrap-region-reset)))
+
+;; TODO: Don't use hardcoded `delete-backward-char', but a fallback
+(defun wrap-region-backward-delete-char ()
+  "Deletes an enclosing pair backwards if insert twice is active.
+ Otherwise it falls back to default."
+  (interactive)
+  (cond (wrap-region-state-active
+         (forward-char 1)
+         (backward-delete-char 2))
+        (t (call-interactively 'delete-backward-char)))
+  (wrap-region-reset))
+
+(defun wrap-region-define-keys ()
+  "Defines all key bindings."
+  (define-key wrap-region-mode-map (kbd "DEL") 'wrap-region-backward-delete-char)
+  (maphash (lambda (left right)
+             (define-key wrap-region-mode-map left 'wrap-region-with-punctuation-or-insert)
+             (define-key wrap-region-mode-map right 'wrap-region-with-punctuation-or-insert))
+           wrap-region-punctuations-table))
 
 ;;;###autoload
 (define-minor-mode wrap-region-mode
@@ -150,6 +200,8 @@ between them.")
   :keymap wrap-region-mode-map
   (when wrap-region-mode
     (wrap-region-define-keys)
+    (wrap-region-reset)
+    (add-hook 'post-command-hook 'wrap-region-command)
     (run-hooks 'wrap-region-hook)))
 
 ;;;###autoload
