@@ -75,10 +75,6 @@ between them."
 punctuation.")
 (make-variable-buffer-local 'wrap-region-tag-active)
 
-(defvar wrap-region-mode-punctuations (make-hash-table)
-  "Use this if you want mode specific punctuations.  Key is the symbol
-name of the major mode and the value is a list of punctuations.")
-
 (defvar wrap-region-before-hook '()
   "Evaluated before the region is wrapped.  Two variables are
 available in the hook: wrap-region-beginning which is the beginning of
