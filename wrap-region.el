@@ -177,7 +177,7 @@ If the executed command moved the cursor, then insert twice is set inactive."
   "Deletes an enclosing pair backwards if insert twice is active.
  Otherwise it falls back to default."
   (interactive)
-  (cond (wrap-region-state-active
+  (cond ((and wrap-region-state-active (wrap-region-match (char-to-string (char-before))))
          (forward-char 1)
          (backward-delete-char 2))
         (t
