@@ -85,10 +85,6 @@ between them."
         (wrap-region key (wrap-region-right-buddy key) (region-beginning) (region-end))
       (wrap-region-insert key))))
 
-(defun wrap-region-with-punctuations (left right)
-  "Wraps a region with LEFT and RIGHT."
-  (wrap-region left right (region-beginning) (region-end)))
-
 (defun wrap-region-with-tag-or-insert ()
   "Wraps a region with a tag if any region is selected.  Otherwise the
 punctuation(s) are inserted."
@@ -114,18 +110,20 @@ punctuation(s) are inserted."
     (insert right)))
 
 (defun wrap-region-insert (left)
-  "Inserts LEFT or LEFT and it's corresponding punctuation if
-`wrap-region-insert-twice' is set to t."
+  "Inserts LEFT and its right buddy if `wrap-region-insert-twice' is non nil."
+  (if wrap-region-insert-twice
+      (wrap-region-insert-twice left)
+    (insert left)))
+
+(defun wrap-region-insert-twice (left)
+  "Inserts LEFT and its right buddy."
   (insert left)
-  (cond (wrap-region-insert-twice
-         (insert (wrap-region-corresponding-punctuation left))
-         (backward-char))))
+  (save-excursion
+    (insert (wrap-region-right-buddy left))))
 
-
-(defun wrap-region-add-punctuation (left right)
-  "Adds a new punctuation pair to the punctuation list."
-  (puthash left right wrap-region-punctuations-table))
-
+;; (defun wrap-region-add-punctuation (left right)
+;;   "Adds a new punctuation pair to the punctuation list."
+;;   (puthash left right wrap-region-punctuations-table))
 
 (defun wrap-region-right-buddy (left)
   "Returns right buddy to LEFT."
