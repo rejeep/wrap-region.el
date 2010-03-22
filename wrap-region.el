@@ -30,8 +30,8 @@
 ;;; Commentary:
 
 ;; wrap-region is a minor mode that wraps text with punctuations. For
-;; some tagged markup modes, such as HTML and XML, it wraps a region
-;; with a tag instead of a punctuation.
+;; tagged markup modes, such as HTML and XML, it wraps a region
+;; with a tag instead of punctuations.
 
 ;; To use wrap-region, make sure that this file is in Emacs load-path
 ;; (add-to-list 'load-path "/path/to/directory/or/file")
@@ -42,51 +42,11 @@
 ;; To start wrap-region
 ;; (wrap-region-mode t) or M-x wrap-region-mode
 ;;
-;; wrap-region is buffer local, so hook it up.
+;; If you only want wrap-region active in some mode, use a hook
 ;; (add-hook 'ruby-mode-hook 'wrap-region-mode)
 ;;
-;; Or activate it globally.
+;; Or if you want it activate in all buffers, use the global mode.
 ;; (wrap-region-global-mode t)
-;;
-;; This will enable all of wrap-region's default punctuations in
-;; ruby-mode. To enable only a few punctuations, use
-;; `wrap-region-set-mode-punctuations'.
-;; (add-hook 'ruby-mode-hook
-;;           '(lambda()
-;;              (wrap-region-set-mode-punctuations '("\"" "'" "("))
-;;              (wrap-region-mode t)))
-;;
-;; You can also pass a major mode to this function if you want to set
-;; all mode specific punctuations at the same place:
-;;
-;; (wrap-region-set-mode-punctuations '("\"" "'" "(") 'ruby-mode)
-;; (wrap-region-set-mode-punctuations '("[" "{" "(") 'java-mode)
-
-;; If no region is selected so there's nothing to wrap, wrap-region
-;; will insert that punctuation, unless if `wrap-region-insert-twice'
-;; set to t. In this case two punctuations will be inserted and the
-;; cursor placed in between them.
-
-;; By default "<" is used as a regular punctuation with ">" as it's
-;; corresponding. This is probably the wanted behavior in languages
-;; such as Java, where this is syntax can be used:
-;; Set<String> set = new HashSet<String>();
-;;
-;; But in markup languages, such as HTML and XML, you use tags and
-;; want to make use of the tags functionality. To enable it, set
-;; `wrap-region-tag-active' to t before activating wrap-region.
-;; (add-hook 'rhtml-mode-hook
-;;           '(lambda()
-;;              (setq wrap-region-tag-active t)
-;;              (wrap-region-mode t)))
-;;
-;; You can now wrap a region with a tag. When asked for the tag, you
-;; may include attributes, such as class or id.
-
-;; wrap-region comes with a few default punctuations (see
-;; `wrap-region-punctuations-table'). You can add you own punctuations
-;; using `wrap-region-add-punctuation'.
-;; (wrap-region-add-punctuation "#" "#")
 
 ;;; Code:
 
