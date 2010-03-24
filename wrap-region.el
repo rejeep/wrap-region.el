@@ -59,6 +59,10 @@
 ;; `wrap-region-punctuations-table' contains a few default
 ;; punctuations that wraps. You can add you own like this:
 ;; (wrap-region-add-punctuation "#" "#")
+;;
+;; You can specify a list of modes that `wrap-region-mode' should not
+;; be started in like this:
+;; (setq wrap-region-except-modes '(calc-mode org-mode))
 
 
 ;;; Code:
@@ -105,6 +109,9 @@ between them.")
 
 (defvar wrap-region-state-pos nil
   "The position when insert twice was last activated. nil if not active.")
+
+(defvar wrap-region-except-modes '()
+  "A list of modes in which `wrap-region-mode' should not be activated.")
 
 
 (defun wrap-region-with-punctuation-or-insert ()
@@ -228,7 +235,8 @@ If the executed command moved the cursor, then insert twice is set inactive."
 (defun turn-on-wrap-region-mode ()
   "Turn on `wrap-region-mode'"
   (interactive)
-  (wrap-region-mode +1))
+  (unless (member major-mode wrap-region-except-modes)
+    (wrap-region-mode +1)))
 
 ;;;###autoload
 (defun turn-off-wrap-region-mode ()
