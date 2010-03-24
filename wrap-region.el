@@ -88,6 +88,11 @@ between them.")
 (defvar wrap-region-hook '()
   "Called when `wrap-region-mode' is started.")
 
+(defvar wrap-region-before-insert-twice-hook '()
+  "Called before insert twice has been done")
+
+(defvar wrap-region-after-insert-twice-hook '()
+  "Called after insert twice has been done")
 
 (defvar wrap-region-state-active nil
   "t if insert twice is active. nil otherwise.")
@@ -126,10 +131,12 @@ between them.")
          (forward-char 1)
          (wrap-region-reset))
         (t
+         (run-hooks 'wrap-region-before-insert-twice-hook)
          (insert left)
          (when (wrap-region-right-buddy left)
            (save-excursion
              (insert (wrap-region-right-buddy left)))
+           (run-hooks 'wrap-region-after-insert-twice-hook)
            (wrap-region-activate)))))
 
 (defun wrap-region-with-tag ()
