@@ -86,7 +86,8 @@ between them.")
   "List of modes where < should be used as a tag instead of a regular punctuation.")
 
 (defvar wrap-region-hook '()
-  "Hook for `wrap-region-mode'.")
+  "Called when `wrap-region-mode' is started.")
+
 
 (defvar wrap-region-state-active nil
   "t if insert twice is active. nil otherwise.")
