@@ -24,3 +24,26 @@ Or if you want to activate it in all buffers, use the global mode:
 
 Now select a region and hit one of the punctuation keys (**"**, **{**,
 **(**, ...). If you are in a tag mode, try select a region and hit **<**.
+
+## Hook it up
+Wrap Region comes with these hooks:
+
+* **wrap-region-hook**: Called when wrap-region-mode is started
+* **wrap-region-before-insert-twice-hook**: Called before insert twice occurs
+* **wrap-region-after-insert-twice-hook**: Called after insert twice occurs
+* **wrap-region-before-wrap-hook**: Called before wrapping occurs
+* **wrap-region-after-wrap-hook**: Called after wrapping occurs
+
+### Use case
+A useful way to use these hooks is for example in modes for languages
+that use curly braces.
+    (add-hook 'c-mode-hook 'wrap-region-indent-curly-braces)
+    (defun wrap-region-indent-curly-braces ()
+      (add-hook 'wrap-region-after-insert-twice-hook
+                (lambda ()
+                  (when (string= (char-to-string (char-before)) "{")
+                    (let ((origin (line-beginning-position)))
+                      (newline 2)
+                      (indent-region origin (line-end-position))
+                      (forward-line -1)
+                      (indent-according-to-mode))))))
