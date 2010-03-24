@@ -94,6 +94,11 @@ between them.")
 (defvar wrap-region-after-insert-twice-hook '()
   "Called after insert twice has been done.")
 
+(defvar wrap-region-before-wrap-hook '()
+  "Called before wrapping has been done.")
+
+(defvar wrap-region-after-wrap-hook '()
+  "Called after wrapping has been done.")
 
 (defvar wrap-region-state-active nil
   "t if insert twice is active. nil otherwise.")
@@ -114,11 +119,13 @@ between them.")
 
 (defun wrap-region (left right beg end)
   "Wraps region from BEG to END with LEFT and RIGHT."
+  (run-hooks 'wrap-region-before-wrap-hook)
   (save-excursion
     (goto-char beg)
     (insert left)
     (goto-char (+ end (length left)))
-    (insert right)))
+    (insert right))
+  (run-hooks 'wrap-region-after-wrap-hook))
 
 (defun wrap-region-insert (left)
   "Inserts LEFT and its right buddy if `wrap-region-insert-twice' is non nil."
