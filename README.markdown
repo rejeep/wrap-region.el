@@ -47,3 +47,14 @@ that use curly braces.
                       (indent-region origin (line-end-position))
                       (forward-line -1)
                       (indent-according-to-mode))))))
+
+## Known problems
+
+### Calc mode
+In calc-mode you use ' (apostrophe) to enter an algebraic
+expression. If you use the global wrap-region-mode, wrap-region will
+be active when you start calc-mode and hence clash with the algebraic key.
+
+You can solve this by adding calc-mode to the list of modes that
+wrap-region should not be activated in:
+    (setq wrap-region-except-modes '(calc-mode))
