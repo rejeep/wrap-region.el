@@ -89,10 +89,11 @@ between them.")
   "Called when `wrap-region-mode' is started.")
 
 (defvar wrap-region-before-insert-twice-hook '()
-  "Called before insert twice has been done")
+  "Called before insert twice has been done.")
 
 (defvar wrap-region-after-insert-twice-hook '()
-  "Called after insert twice has been done")
+  "Called after insert twice has been done.")
+
 
 (defvar wrap-region-state-active nil
   "t if insert twice is active. nil otherwise.")
