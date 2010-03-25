@@ -118,7 +118,7 @@ between them.")
   "Wraps region if any. Otherwise insert punctuations."
   (interactive)
   (let ((key (char-to-string last-input-char)))
-    (if mark-active
+    (if (and mark-active (wrap-region-right-buddy key))
         (if (and (member major-mode wrap-region-tag-active-modes) (string= key "<"))
             (wrap-region-with-tag)
           (wrap-region key (wrap-region-right-buddy key) (region-beginning) (region-end)))
