@@ -37,16 +37,16 @@ Wrap Region comes with these hooks:
 ### Use case
 A useful way to use these hooks is for example in modes for languages
 that use curly braces.
-    (add-hook 'c-mode-hook 'wrap-region-indent-curly-braces)
-    (defun wrap-region-indent-curly-braces ()
-      (add-hook 'wrap-region-after-insert-twice-hook
-                (lambda ()
-                  (when (string= (char-to-string (char-before)) "{")
-                    (let ((origin (line-beginning-position)))
-                      (newline 2)
-                      (indent-region origin (line-end-position))
-                      (forward-line -1)
-                      (indent-according-to-mode))))))
+    (add-hook 'wrap-region-after-insert-twice-hook
+              (lambda ()
+                (let ((modes '(c-mode java-mode javascript-mode css-mode)))
+                  (if (and (string= (char-to-string (char-before)) "{") (member major-mode modes))
+                      (let ((origin (line-beginning-position)))
+                        (newline 2)
+                        (indent-region origin (line-end-position))
+                        (forward-line -1)
+                        (indent-according-to-mode))))))
+
 
 ## Known problems
 
