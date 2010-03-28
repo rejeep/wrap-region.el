@@ -4,8 +4,6 @@ punctuations. For tagged markup modes, such as HTML and XML, it wraps
 with tags.
 
 ## Installation
-
-### Manually
 Download **wrap-region.el** and put in Emacs load path. Then require it:
     $ git clone git://github.com/rejeep/wrap-region.git ~/.emacs.d
     
