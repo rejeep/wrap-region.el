@@ -1,7 +1,12 @@
-(add-to-list 'load-path "~/dev/wrap-region")
-(require 'wrap-region)
+(let ((current-directory (file-name-directory load-file-name)))
+  (setq wrap-region-root-path (expand-file-name ".." current-directory))
+  (setq wrap-region-util-path (expand-file-name "util" wrap-region-root-path)))
 
-(add-to-list 'load-path "~/dev/espuds")
+(add-to-list 'load-path wrap-region-root-path)
+(add-to-list 'load-path (expand-file-name "ecukes" wrap-region-util-path))
+(add-to-list 'load-path (expand-file-name "espuds" wrap-region-util-path))
+
+(require 'wrap-region)
 (require 'espuds)
 
 (After
