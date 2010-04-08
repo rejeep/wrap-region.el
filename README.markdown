@@ -58,4 +58,4 @@ Some modes are added to the except list by default. See the list with:
     (describe-variable 'wrap-region-except-modes)
     
 You can also add new modes with:
-    (setq wrap-region-except-modes '(conflicting-mode))
+    (add-to-list 'wrap-region-except-modes 'html-mode)
