@@ -46,13 +46,16 @@ that use curly braces.
                         (indent-according-to-mode))))))
 
 
-## Known problems
+## Gotchas
 
-### Calc mode
-In calc-mode you use ' (apostrophe) to enter an algebraic
-expression. If you use the global wrap-region-mode, wrap-region will
-be active when you start calc-mode and hence clash with the algebraic key.
+### Except modes
+In some modes, such as calc and dired, you do not want to have
+wrap-region active because the key bindings will conflict. wrap-region
+stores a list of modes (wrap-region-except-modes) in which wrap-region
+will be inactive.
 
-You can solve this by adding calc-mode to the list of modes that
-wrap-region should not be activated in:
-    (setq wrap-region-except-modes '(calc-mode))
+Some modes are added to the except list by default. See the list with:
+    (describe-variable 'wrap-region-except-modes)
+    
+You can also add new modes with:
+    (setq wrap-region-except-modes '(conflicting-mode))
