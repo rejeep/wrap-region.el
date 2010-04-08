@@ -1,0 +1,12 @@
+(ert-deftest default-except-modes ()
+  (should (member 'calc-mode wrap-region-except-modes))
+  (should (member 'dired-mode wrap-region-except-modes)))
+
+(ert-deftest default-punctuations ()
+  (should (equal "\"" (gethash "\"" wrap-region-punctuations-table)))
+  (should (equal "'" (gethash "'" wrap-region-punctuations-table)))
+  (should (equal ")" (gethash "(" wrap-region-punctuations-table)))
+  (should (equal "}" (gethash "{" wrap-region-punctuations-table)))
+  (should (equal "]" (gethash "[" wrap-region-punctuations-table)))
+  (should (equal ">" (gethash "<" wrap-region-punctuations-table)))
+  (should (equal 6 (hash-table-count wrap-region-punctuations-table))))
