@@ -4,7 +4,7 @@
 
 ;; Author: Johan Andersson <johan.rejeep@gmail.com>
 ;; Maintainer: Johan Andersson <johan.rejeep@gmail.com>
-;; Version: 0.1.2
+;; Version: 0.1.3
 ;; Keywords: speed, convenience
 ;; URL: http://github.com/rejeep/wrap-region
 
