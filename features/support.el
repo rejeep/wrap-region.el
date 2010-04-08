@@ -3,7 +3,6 @@
   (setq wrap-region-util-path (expand-file-name "util" wrap-region-root-path)))
 
 (add-to-list 'load-path wrap-region-root-path)
-(add-to-list 'load-path (expand-file-name "ecukes" wrap-region-util-path))
 (add-to-list 'load-path (expand-file-name "espuds" wrap-region-util-path))
 (add-to-list 'load-path (expand-file-name "ert" wrap-region-util-path))
 
