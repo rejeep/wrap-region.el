@@ -60,9 +60,12 @@
 ;; punctuations that wraps. You can add you own like this:
 ;;   (wrap-region-add-punctuation "#" "#")
 ;;
-;; You can specify a list of modes that `wrap-region-mode' should not
-;; be started in like this:
-;;   (setq wrap-region-except-modes '(calc-mode org-mode))
+;; Wrap Region stores a list (`wrap-region-except-modes') of modes in
+;; which `wrap-region-mode' should not be activated in (note, only if
+;; you use the global mode) because of conflicting key bindings.
+;;
+;; You can add new except modes like this:
+;;   (add-to-list 'wrap-region-except-modes 'conflicting-mode)
 
 
 ;;; Code:
