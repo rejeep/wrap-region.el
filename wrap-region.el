@@ -110,7 +110,7 @@ between them.")
 (defvar wrap-region-state-pos nil
   "The position when insert twice was last activated. nil if not active.")
 
-(defvar wrap-region-except-modes '()
+(defvar wrap-region-except-modes '(calc-mode dired-mode)
   "A list of modes in which `wrap-region-mode' should not be activated.")
 
 
