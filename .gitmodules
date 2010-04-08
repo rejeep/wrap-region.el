@@ -4,3 +4,6 @@
 [submodule "util/espuds"]
 	path = util/espuds
 	url = git://github.com/rejeep/espuds.git
+[submodule "util/ert"]
+	path = util/ert
+	url = git://github.com/nex3/ert.git
