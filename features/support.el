@@ -10,6 +10,8 @@
 (require 'espuds)
 (require 'ert)
 
+(setq default-except-modes wrap-region-except-modes)
+
 (After
  (setq wrap-region-insert-twice nil)
 
@@ -26,6 +28,6 @@
  ;; Disable global mode
  (wrap-region-global-mode -1)
 
- ;; Clear all except modes
- (setq wrap-region-except-modes '())
+ ;; Reset all except modes
+ (setq wrap-region-except-modes default-except-modes)
  )
