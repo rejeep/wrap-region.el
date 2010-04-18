@@ -120,7 +120,7 @@ between them.")
 (defun wrap-region-with-punctuation-or-insert ()
   "Wraps region if any. Otherwise insert punctuations."
   (interactive)
-  (let ((key (char-to-string last-input-char)))
+  (let ((key (char-to-string last-input-event)))
     (if (and mark-active (wrap-region-right-buddy key))
         (if (and (member major-mode wrap-region-tag-active-modes) (string= key "<"))
             (wrap-region-with-tag)
