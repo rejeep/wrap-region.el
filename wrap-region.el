@@ -228,11 +228,13 @@ If the executed command moved the cursor, then insert twice is set inactive."
   :init-value nil
   :lighter " wr"
   :keymap wrap-region-mode-map
-  (when wrap-region-mode
-    (wrap-region-define-keys)
-    (wrap-region-reset)
-    (add-hook 'post-command-hook 'wrap-region-command)
-    (run-hooks 'wrap-region-hook)))
+  (cond (wrap-region-mode
+         (wrap-region-define-keys)
+         (wrap-region-reset)
+         (add-hook 'post-command-hook 'wrap-region-command)
+         (run-hooks 'wrap-region-hook))
+        (t
+         (remove-hook 'post-command-hook 'wrap-region-command))))
 
 ;;;###autoload
 (defun turn-on-wrap-region-mode ()
