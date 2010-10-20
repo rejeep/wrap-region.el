@@ -10,6 +10,7 @@
 
 ;; This file is NOT part of GNU Emacs.
 
+
 ;;; License:
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -27,6 +28,7 @@
 ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 ;; Boston, MA 02110-1301, USA.
 
+
 ;;; Commentary:
 
 ;; wrap-region is a minor mode that wraps a region with
@@ -38,33 +40,33 @@
 ;;
 ;; Then require wrap-region:
 ;;   (require 'wrap-region)
-;;
-;;
+
 ;; To start wrap-region:
 ;;   (wrap-region-mode t) or M-x wrap-region-mode
 ;;
-;; If you only want wrap-region active in some mode, use a hook:
+;; If you only want wrap-region active in some mode, use hooks:
 ;;   (add-hook 'ruby-mode-hook 'wrap-region-mode)
 ;;
 ;; Or if you want to activate it in all buffers, use the global mode:
 ;;   (wrap-region-global-mode t)
-;;
-;;
+
 ;; To wrap a region, select that region and hit one of the punctuation
-;; keys. In "tag-modes" (html-mode, sgml-mode or xml-mode), "<" is
+;; keys. In "tag-modes"" (see `wrap-region-tag-active-modes'), "<" is
 ;; replaced and wraps the region with a tag. To activate this behavior
-;; in a mode other than default, you do:
+;; in a mode that is not default:
 ;;   (add-to-list 'wrap-region-tag-active-modes 'some-tag-mode)
 ;;
-;; `wrap-region-punctuations-table' contains a few default
-;; punctuations that wraps. You can add you own like this:
-;;   (wrap-region-add-punctuation "#" "#")
+;; `wrap-region-punctuations-table' contains the default punctuations
+;; that wraps. You can add and remove new wrappers by using the
+;; functions `wrap-region-add-wrapper' and
+;; `wrap-region-remove-wrapper' respectively.
+;;   (wrap-region-add-wrapper "#" "#")
+;;   (wrap-region-remove-wrapper "(")
 ;;
-;; Wrap Region stores a list (`wrap-region-except-modes') of modes in
-;; which `wrap-region-mode' should not be activated in (note, only if
-;; you use the global mode) because of conflicting key bindings.
-;;
-;; You can add new except modes like this:
+;; Some modes may have conflicting key bindings with wrap-region. To
+;; avoid conflicts, the list `wrap-region-except-modes' contains names
+;; of modes where wrap-region should not be activated (note, only in
+;; the global mode). You can add new modes like this:
 ;;   (add-to-list 'wrap-region-except-modes 'conflicting-mode)
 
 
