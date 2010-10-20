@@ -56,7 +56,7 @@
 ;; in a mode that is not default:
 ;;   (add-to-list 'wrap-region-tag-active-modes 'some-tag-mode)
 ;;
-;; `wrap-region-punctuations-table' contains the default punctuations
+;; `wrap-region-table' contains the default punctuations
 ;; that wraps. You can add and remove new wrappers by using the
 ;; functions `wrap-region-add-wrapper' and
 ;; `wrap-region-remove-wrapper' respectively.
@@ -72,15 +72,10 @@
 
 ;;; Code:
 
-(defvar wrap-region-insert-twice nil
-  "If this is non nil, when inserting a punctuation, the corresponding
-punctuation will be inserted after and the cursor will be placed
-between them.")
-
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
 
-(defvar wrap-region-punctuations-table
+(defvar wrap-region-table
   (let ((table (make-hash-table :test 'equal)))
     (puthash "\"" "\"" table)
     (puthash "'"  "'"  table)
@@ -89,75 +84,38 @@ between them.")
     (puthash "["  "]"  table)
     (puthash "<"  ">"  table)
     table)
-  "A map with all punctuations and their right corresponding punctuation.")
+  "Table with wrapper pairs.")
+
 
 (defvar wrap-region-tag-active-modes '(html-mode sgml-mode rhtml-mode)
-  "List of modes where < should be used as a tag instead of a regular punctuation.")
-
-(defvar wrap-region-hook '()
-  "Called when `wrap-region-mode' is started.")
-
-(defvar wrap-region-before-insert-twice-hook '()
-  "Called before insert twice has been done.")
-
-(defvar wrap-region-after-insert-twice-hook '()
-  "Called after insert twice has been done.")
-
-(defvar wrap-region-before-wrap-hook '()
-  "Called before wrapping has been done.")
-
-(defvar wrap-region-after-wrap-hook '()
-  "Called after wrapping has been done.")
-
-(defvar wrap-region-state-active nil
-  "t if insert twice is active. nil otherwise.")
-
-(defvar wrap-region-state-pos nil
-  "The position when insert twice was last activated. nil if not active.")
+  "List of modes that uses tags.")
 
 (defvar wrap-region-except-modes '(calc-mode dired-mode)
   "A list of modes in which `wrap-region-mode' should not be activated.")
 
+(defvar wrap-region-hook nil
+  "Called when `wrap-region-mode' is turned on.")
 
-(defun wrap-region-with-punctuation-or-insert ()
-  "Wraps region if any. Otherwise insert punctuations."
+(defvar wrap-region-before-wrap-hook nil
+  "Called before wrapping.")
+
+(defvar wrap-region-after-wrap-hook nil
+  "Called after wrapping.")
+
+
+(defun wrap-region-trigger ()
+  "Called when trigger key is pressed."
   (interactive)
   (let ((key (char-to-string last-input-event)))
     (if (region-active-p)
-        (if (and (member major-mode wrap-region-tag-active-modes) (string= key "<"))
+        (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
-          (wrap-region key (wrap-region-right-buddy key) (region-beginning) (region-end)))
-      (wrap-region-insert key))))
+          (wrap-region-with-punctuations key (gethash key wrap-region-table)))
+      (wrap-region-fallback key))))
 
-(defun wrap-region (left right beg end)
-  "Wraps region from BEG to END with LEFT and RIGHT."
-  (run-hooks 'wrap-region-before-wrap-hook)
-  (save-excursion
-    (goto-char beg)
-    (insert left)
-    (goto-char (+ end (length left)))
-    (insert right))
-  (run-hooks 'wrap-region-after-wrap-hook))
-
-(defun wrap-region-insert (left)
-  "Inserts LEFT and its right buddy if `wrap-region-insert-twice' is non nil."
-  (if wrap-region-insert-twice
-      (wrap-region-insert-twice left)
-    (insert left)))
-
-(defun wrap-region-insert-twice (left)
-  "Inserts LEFT and its right buddy."
-  (cond ((and wrap-region-state-active (wrap-region-match left))
-         (forward-char 1)
-         (wrap-region-reset))
-        (t
-         (run-hooks 'wrap-region-before-insert-twice-hook)
-         (insert left)
-         (when (wrap-region-right-buddy left)
-           (save-excursion
-             (insert (wrap-region-right-buddy left)))
-           (run-hooks 'wrap-region-after-insert-twice-hook)
-           (wrap-region-activate)))))
+(defun wrap-region-insert-tag-p (key)
+  "Checks if tag should be inserted or not."
+  (and (member major-mode wrap-region-tag-active-modes) (equal key "<")))
 
 (defun wrap-region-with-tag ()
   "Wraps region with tag."
@@ -166,63 +124,59 @@ between them.")
          (tag-name (car split))
          (left (concat "<" tag ">"))
          (right (concat "</" tag-name ">")))
-    (wrap-region left right (region-beginning) (region-end))))
+    (wrap-region-with left right)))
 
-(defun wrap-region-right-buddy (left)
-  "Returns right buddy to LEFT."
-  (gethash left wrap-region-punctuations-table))
+(defun wrap-region-with-punctuations (left right)
+  "Wraps region with LEFT and RIGHT punctuations."
+  (wrap-region-with left right))
 
-(defun wrap-region-add-punctuation (left right)
-  "Adds a new punctuation pair."
-  (puthash left right wrap-region-punctuations-table))
+(defun wrap-region-with (left right)
+  "Wraps region with LEFT and RIGHT."
+  (run-hooks 'wrap-region-before-wrap-hook)
+  (let ((beg (region-beginning)) (end (region-end)))
+    (save-excursion
+      (goto-char beg)
+      (insert left)
+      (goto-char (+ end (length left)))
+      (insert right)))
+  (run-hooks 'wrap-region-after-wrap-hook))
 
-(defun wrap-region-match (key)
-  "Returns t if the current position is an enclosing match with
-KEY. nil otherwise."
-  (let ((before (char-to-string (char-before)))
-        (after  (char-to-string (char-after))))
-    (and (string= key after)
-         (string= after (wrap-region-right-buddy before)))))
+(defun wrap-region-fallback (key)
+  "Executes function that KEY was bound to before `wrap-region-mode'."
+  (let ((wrap-region-mode nil))
+    (call-interactively
+     (key-binding
+      (read-kbd-macro key)))))
 
-(defun wrap-region-reset ()
-  "Set insert twice to inactive."
-  (setq wrap-region-state-pos nil)
-  (setq wrap-region-state-active nil))
+(defun wrap-region-add-wrapper (left right)
+  "Adds LEFT and RIGHT as new wrapper pair."
+  (puthash left right wrap-region-table)
+  (wrap-region-define-wrapper left))
 
-(defun wrap-region-activate ()
-  "Set insert twice to active at current point."
-  (setq wrap-region-state-pos (point))
-  (setq wrap-region-state-active t))
-
-(defun wrap-region-command ()
-  "Called after a command is executed.
-If the executed command moved the cursor, then insert twice is set inactive."
-  (if (and wrap-region-state-active
-           (/= (point) wrap-region-state-pos))
-      (wrap-region-reset)))
-
-(defun wrap-region-backward-delete-char ()
-  "Deletes an enclosing pair backwards if insert twice is active.
- Otherwise it falls back to default."
-  (interactive)
-  (cond ((and wrap-region-state-active (wrap-region-match (char-to-string (char-after))))
-         (forward-char 1)
-         (backward-delete-char 2))
-        (t
-         (let ((wrap-region-mode nil)
-               (original-func (key-binding (kbd "DEL"))))
-           (call-interactively original-func))))
-  (wrap-region-reset))
+(defun wrap-region-remove-wrapper (left)
+  "Removed LEFT as wrapper."
+  (remhash left wrap-region-table)
+  (wrap-region-unset-key left))
 
 (defun wrap-region-define-keys ()
-  "Defines all key bindings."
-  (if wrap-region-insert-twice
-      (define-key wrap-region-mode-map (kbd "DEL") 'wrap-region-backward-delete-char))
-  (maphash (lambda (left right)
-             (define-key wrap-region-mode-map left 'wrap-region-with-punctuation-or-insert)
-             (if wrap-region-insert-twice
-                 (define-key wrap-region-mode-map right 'wrap-region-with-punctuation-or-insert)))
-           wrap-region-punctuations-table))
+  "Defines key bindings for `wrap-region-mode'."
+  (maphash
+   (lambda (left _)
+     (wrap-region-define-wrapper left))
+   wrap-region-table))
+
+(defun wrap-region-define-wrapper (key)
+  "Defines KEY as wrapper."
+  (wrap-region-define-key key 'wrap-region-trigger))
+
+(defun wrap-region-unset-key (key)
+  "Remove KEY from `wrap-region-mode-map'."
+  (wrap-region-define-key key nil))
+
+(defun wrap-region-define-key (key fn)
+  "Binds KEY to FN in `wrap-region-mode-map'."
+  (define-key wrap-region-mode-map (edmacro-parse-keys key) fn))
+
 
 ;;;###autoload
 (define-minor-mode wrap-region-mode
@@ -230,13 +184,9 @@ If the executed command moved the cursor, then insert twice is set inactive."
   :init-value nil
   :lighter " wr"
   :keymap wrap-region-mode-map
-  (cond (wrap-region-mode
-         (wrap-region-define-keys)
-         (wrap-region-reset)
-         (add-hook 'post-command-hook 'wrap-region-command)
-         (run-hooks 'wrap-region-hook))
-        (t
-         (remove-hook 'post-command-hook 'wrap-region-command))))
+  (when wrap-region-mode
+    (wrap-region-define-keys)
+    (run-hooks 'wrap-region-hook)))
 
 ;;;###autoload
 (defun turn-on-wrap-region-mode ()

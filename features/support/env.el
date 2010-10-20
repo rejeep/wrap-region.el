@@ -24,19 +24,16 @@
 (After
  ;; For scenarios that add and remove wrapper.
  (wrap-region-add-wrapper "(" ")")
- (wrap-region-remove-wrapper "<")
+ (wrap-region-remove-wrapper "`")
 
  ;; Reset hooks
- (setq wrap-region-hook '())
- (setq wrap-region-before-insert-twice-hook '())
- (setq wrap-region-after-insert-twice-hook '())
- (setq wrap-region-before-wrap-hook '())
- (setq wrap-region-after-wrap-hook '())
+ (setq wrap-region-hook nil)
+ (setq wrap-region-before-wrap-hook nil)
+ (setq wrap-region-after-wrap-hook nil)
 
  ;; Disable wrap-region-mode
  (wrap-region-mode -1)
  (wrap-region-global-mode -1)
 
  ;; Reset all except modes
- (setq wrap-region-except-modes default-except-modes)
- )
+ (setq wrap-region-except-modes default-except-modes))
