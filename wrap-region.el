@@ -175,7 +175,7 @@
 
 (defun wrap-region-define-key (key fn)
   "Binds KEY to FN in `wrap-region-mode-map'."
-  (define-key wrap-region-mode-map (edmacro-parse-keys key) fn))
+  (define-key wrap-region-mode-map (read-kbd-macro key) fn))
 
 
 ;;;###autoload
