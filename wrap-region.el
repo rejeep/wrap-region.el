@@ -77,12 +77,9 @@
 
 (defvar wrap-region-table
   (let ((table (make-hash-table :test 'equal)))
-    (puthash "\"" "\"" table)
-    (puthash "'"  "'"  table)
-    (puthash "("  ")"  table)
-    (puthash "{"  "}"  table)
-    (puthash "["  "]"  table)
-    (puthash "<"  ">"  table)
+    (mapcar (lambda (lr) (puthash (car lr) lr table))
+            '(("\"" "\"") ("'"  "'") ("("  ")") ("{"  "}")
+              ("["  "]") ("<"  ">")))
     table)
   "Table with wrapper pairs.")
 
@@ -110,7 +107,10 @@
     (if (region-active-p)
         (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
-          (wrap-region-with-punctuations key (gethash key wrap-region-table)))
+          (let* ((lr (gethash key wrap-region-table))
+                 (left (nth 0 lr))
+                 (right (nth 0 lr)))
+            (wrap-region-with-punctuations left right)))
       (wrap-region-fallback key))))
 
 (defun wrap-region-insert-tag-p (key)
@@ -148,10 +148,11 @@
      (key-binding
       (read-kbd-macro key)))))
 
-(defun wrap-region-add-wrapper (left right)
+(defun wrap-region-add-wrapper (left right &optional key)
   "Adds LEFT and RIGHT as new wrapper pair."
-  (puthash left right wrap-region-table)
-  (wrap-region-define-wrapper left))
+  (let ((k (if key key left)))
+    (puthash k `(,left ,right) wrap-region-table)
+    (wrap-region-define-wrapper k)))
 
 (defun wrap-region-remove-wrapper (left)
   "Removed LEFT as wrapper."
