@@ -109,7 +109,7 @@
             (wrap-region-with-tag)
           (let* ((lr (gethash key wrap-region-table))
                  (left (nth 0 lr))
-                 (right (nth 0 lr)))
+                 (right (nth 1 lr)))
             (wrap-region-with-punctuations left right)))
       (wrap-region-fallback key))))
 
