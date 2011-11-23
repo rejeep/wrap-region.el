@@ -38,6 +38,27 @@ Feature: Wrap Region
     And I press "("
     Then I should see "this (is some text"
     
+  Scenario: Wrap region with key
+    Given I add wrapper "{-/-}/#"
+    When I insert "This is some text"
+    And I select "is some"
+    And I press "#"
+    Then I should see "This {-is some-} text"
+
+  Scenario: Fallback from a wrapper defined with key
+    Given I add wrapper "{-/-}/#"
+    When I press "#"
+    Then I should see "#"
+    And I should not see "{--}"
+
+  Scenario: Remove wrapper with key
+    Given I add wrapper "{-/-}/#"
+    Given I remove wrapper "#"
+    When I insert "this is some text"
+    And I select "is some"
+    And I press "#"
+    Then I should see "this #is some text"
+
   Scenario: Wrap with tag
     Given I enable html-mode
     And wrap-region is active

@@ -25,6 +25,7 @@
  ;; For scenarios that add and remove wrapper.
  (wrap-region-add-wrapper "(" ")")
  (wrap-region-remove-wrapper "`")
+ (wrap-region-remove-wrapper "#")
 
  ;; Reset hooks
  (setq wrap-region-hook nil)
