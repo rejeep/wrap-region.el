@@ -60,7 +60,8 @@
 ;; that wraps. You can add and remove new wrappers by using the
 ;; functions `wrap-region-add-wrapper' and
 ;; `wrap-region-remove-wrapper' respectively.
-;;   (wrap-region-add-wrapper "#" "#")
+;;   (wrap-region-add-wrapper "`" "'")        ; hit ` then region -> `region'
+;;   (wrap-region-add-wrapper "/*" "*/" "/")  ; hit / then region -> /*region*/
 ;;   (wrap-region-remove-wrapper "(")
 ;;
 ;; Some modes may have conflicting key bindings with wrap-region. To
@@ -77,12 +78,9 @@
 
 (defvar wrap-region-table
   (let ((table (make-hash-table :test 'equal)))
-    (puthash "\"" "\"" table)
-    (puthash "'"  "'"  table)
-    (puthash "("  ")"  table)
-    (puthash "{"  "}"  table)
-    (puthash "["  "]"  table)
-    (puthash "<"  ">"  table)
+    (mapcar (lambda (lr) (puthash (car lr) lr table))
+            '(("\"" "\"") ("'"  "'") ("("  ")") ("{"  "}")
+              ("["  "]") ("<"  ">")))
     table)
   "Table with wrapper pairs.")
 
@@ -110,7 +108,10 @@
     (if (region-active-p)
         (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
-          (wrap-region-with-punctuations key (gethash key wrap-region-table)))
+          (let* ((lr (gethash key wrap-region-table))
+                 (left (nth 0 lr))
+                 (right (nth 1 lr)))
+            (wrap-region-with-punctuations left right)))
       (wrap-region-fallback key))))
 
 (defun wrap-region-insert-tag-p (key)
@@ -148,10 +149,14 @@
      (key-binding
       (read-kbd-macro key)))))
 
-(defun wrap-region-add-wrapper (left right)
-  "Adds LEFT and RIGHT as new wrapper pair."
-  (puthash left right wrap-region-table)
-  (wrap-region-define-wrapper left))
+(defun wrap-region-add-wrapper (left right &optional key)
+  "Adds LEFT and RIGHT as new wrapper pair.
+
+KEY is a key to press to wrap region.
+LEFT is used instead of KEY when KEY is not given."
+  (or key (setq key left))
+  (puthash key (list left right) wrap-region-table)
+  (wrap-region-define-wrapper key))
 
 (defun wrap-region-remove-wrapper (left)
   "Removed LEFT as wrapper."

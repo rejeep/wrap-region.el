@@ -8,8 +8,7 @@
 
 (Given "^I add wrapper \"\\(.+\\)\"$"
        (lambda (wrapper)
-         (let ((split (split-string wrapper "/")))
-           (wrap-region-add-wrapper (car split) (cadr split)))))
+         (apply 'wrap-region-add-wrapper (split-string wrapper "/"))))
 
 (Given "^I remove wrapper \"\\(.\\)\"$"
        (lambda (left)
