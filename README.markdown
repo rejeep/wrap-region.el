@@ -22,13 +22,6 @@ Now try selecting a region and press any of the following keys: `"`, `'`, `(`, `
 
 For more information, see comments in `wrap-region.el`.
 
-## Hooks
-Wrap Region has a few hooks hooks:
-
-* `wrap-region-hook` Called when `wrap-region-mode` is started
-* `wrap-region-before-wrap-hook` Called before a wrap occurs
-* `wrap-region-after-wrap-hook` Called after a wrap occurs
-
 ## Gotchas
 
 ### Except modes
