@@ -78,7 +78,7 @@
 
 (defvar wrap-region-table
   (let ((table (make-hash-table :test 'equal)))
-    (mapcar (lambda (lr) (puthash (car lr) lr table))
+    (mapc (lambda (lr) (puthash (car lr) lr table))
             '(("\"" "\"") ("'"  "'") ("("  ")") ("{"  "}")
               ("["  "]") ("<"  ">")))
     table)
