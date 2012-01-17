@@ -108,10 +108,8 @@
     (if (region-active-p)
         (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
-          (let* ((lr (gethash key wrap-region-table))
-                 (left (nth 0 lr))
-                 (right (nth 1 lr)))
-            (wrap-region-with-punctuations left right)))
+          (let ((pair (gethash key wrap-region-table)))
+            (apply 'wrap-region-with-punctuations pair)))
       (wrap-region-fallback key))))
 
 (defun wrap-region-insert-tag-p (key)
