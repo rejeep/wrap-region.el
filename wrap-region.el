@@ -73,6 +73,12 @@
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'cl))
+
+
+(defstruct wrap-region-wrapper key left right)
+
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
 
@@ -102,8 +108,10 @@
     (if (region-active-p)
         (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
-          (let ((pair (gethash key wrap-region-table)))
-            (apply 'wrap-region-with-punctuations pair)))
+          (let ((wrapper (gethash key wrap-region-table)))
+            (wrap-region-with-punctuations
+             (wrap-region-wrapper-left wrapper)
+             (wrap-region-wrapper-right wrapper))))
       (wrap-region-fallback key))))
 
 (defun wrap-region-insert-tag-p (key)
@@ -144,25 +152,16 @@
       (read-kbd-macro key)))))
 
 (defun wrap-region-add-wrapper (left right &optional key)
-  "Adds LEFT and RIGHT as new wrapper pair.
-
-KEY is a key to press to wrap region.
-LEFT is used instead of KEY when KEY is not given."
+  "Add new wrapper LEFT and RIGHT, with optional KEY as trigger."
   (or key (setq key left))
-  (puthash key (list left right) wrap-region-table)
-  (wrap-region-define-wrapper key))
+  (let ((wrapper (make-wrap-region-wrapper :key key :left left :right right)))
+    (puthash key wrapper wrap-region-table))
+  (wrap-region-define-trigger key))
 
-(defun wrap-region-remove-wrapper (left)
-  "Removed LEFT as wrapper."
-  (remhash left wrap-region-table)
-  (wrap-region-unset-key left))
-
-(defun wrap-region-define-keys ()
-  "Defines key bindings for `wrap-region-mode'."
-  (maphash
-   (lambda (left _)
-     (wrap-region-define-wrapper left))
-   wrap-region-table))
+(defun wrap-region-remove-wrapper (key)
+  "Removed wrapper with trigger KEY."
+  (remhash key wrap-region-table)
+  (wrap-region-unset-key key))
 
 (defun wrap-region-define-wrappers ()
   "Defines defaults wrappers."
@@ -176,7 +175,7 @@ LEFT is used instead of KEY when KEY is not given."
      ("["  "]")
      ("<"  ">"))))
 
-(defun wrap-region-define-wrapper (key)
+(defun wrap-region-define-trigger (key)
   "Defines KEY as wrapper."
   (wrap-region-define-key key 'wrap-region-trigger))
 
@@ -197,7 +196,6 @@ LEFT is used instead of KEY when KEY is not given."
   :keymap wrap-region-mode-map
   (when wrap-region-mode
     (wrap-region-define-wrappers)
-    (wrap-region-define-keys)
     (run-hooks 'wrap-region-hook)))
 
 ;;;###autoload
