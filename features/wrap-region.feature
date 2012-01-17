@@ -32,11 +32,11 @@ Feature: Wrap Region
     Then I should see "this `is some` text"
     
   Scenario: Remove wrapper
-    Given I remove wrapper "("
+    Given I remove wrapper "["
     When I insert "this is some text"
     And I select "is some"
-    And I press "("
-    Then I should see "this (is some text"
+    And I press "["
+    Then I should see "this [is some text"
     
   Scenario: Wrap region with key
     Given I add wrapper "{-/-}/#"
