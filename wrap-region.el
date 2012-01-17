@@ -182,9 +182,9 @@ LEFT is used instead of KEY when KEY is not given."
 
 (defun wrap-region-unset-key (key)
   "Remove KEY from `wrap-region-mode-map'."
-  (wrap-region-define-key key nil))
+  (wrap-region-define-key key))
 
-(defun wrap-region-define-key (key fn)
+(defun wrap-region-define-key (key &optional fn)
   "Binds KEY to FN in `wrap-region-mode-map'."
   (define-key wrap-region-mode-map (read-kbd-macro key) fn))
 
