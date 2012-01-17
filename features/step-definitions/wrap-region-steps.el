@@ -14,36 +14,18 @@
        (lambda (left)
          (wrap-region-remove-wrapper left)))
 
-(Given "^I enable the global mode$"
+(Given "I enable wrap-region globaly"
        (lambda ()
          (wrap-region-global-mode 1)))
 
-(Given "^I add \\(.+\\) as except mode$"
+(Given "^I add \\(.+\\) as an except mode$"
        (lambda (mode)
          (add-to-list 'wrap-region-except-modes (intern mode))))
 
-(When "^I enable html-mode$"
+(When "^I enable \\(.+\\)-mode$"
+      (lambda (mode)
+        (funcall (intern (format "%s-mode" mode)))))
+
+(Then "the buffer should be empty"
       (lambda ()
-        (html-mode)))
-
-(When "^I enable text-mode$"
-      (lambda ()
-        (text-mode)))
-
-(Given "^I add this mode hook$"
-       (lambda (code)
-         (add-hook 'wrap-region-hook
-                   `(lambda ()
-                      (espuds-fake-eval ,code)))))
-
-(Given "^I add this before wrap hook$"
-       (lambda (code)
-         (add-hook 'wrap-region-before-wrap-hook
-                   `(lambda ()
-                      (espuds-fake-eval ,code)))))
-
-(Given "^I add this after wrap hook$"
-       (lambda (code)
-         (add-hook 'wrap-region-after-wrap-hook
-                   `(lambda ()
-                      (espuds-fake-eval ,code)))))
+        (should (zerop (length (espuds-buffer-contents))))))

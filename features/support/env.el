@@ -15,23 +15,22 @@
 (setq default-except-modes wrap-region-except-modes)
 
 (Before
- ;; Start with a clean slate.
- (switch-to-buffer (get-buffer-create "*wrap-region*"))
+ (switch-to-buffer
+  (get-buffer-create "*wrap-region*"))
  (erase-buffer)
  (transient-mark-mode 1)
  (deactivate-mark))
 
 (After
- ;; For scenarios that add and remove wrapper.
- (wrap-region-add-wrapper "[" "]")
- (wrap-region-remove-wrapper "`")
+ ;; For scenarios that add wrappers
+ (wrap-region-remove-wrapper "$")
  (wrap-region-remove-wrapper "#")
 
  ;; Reset hooks
  (setq wrap-region-hook nil)
  (setq wrap-region-before-wrap-hook nil)
  (setq wrap-region-after-wrap-hook nil)
-
+ 
  ;; Disable wrap-region-mode
  (wrap-region-mode -1)
  (wrap-region-global-mode -1)
