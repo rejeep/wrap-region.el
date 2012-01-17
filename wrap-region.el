@@ -108,7 +108,9 @@
 
 (defun wrap-region-insert-tag-p (key)
   "Checks if tag should be inserted or not."
-  (and (member major-mode wrap-region-tag-active-modes) (equal key "<")))
+  (and
+   (equal key "<")
+   (member major-mode wrap-region-tag-active-modes)))
 
 (defun wrap-region-with-tag ()
   "Wraps region with tag."
