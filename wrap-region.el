@@ -76,14 +76,8 @@
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
 
-(defvar wrap-region-table
-  (let ((table (make-hash-table :test 'equal)))
-    (mapc (lambda (lr) (puthash (car lr) lr table))
-            '(("\"" "\"") ("'"  "'") ("("  ")") ("{"  "}")
-              ("["  "]") ("<"  ">")))
-    table)
+(defvar wrap-region-table (make-hash-table :test 'equal)
   "Table with wrapper pairs.")
-
 
 (defvar wrap-region-tag-active-modes '(html-mode sgml-mode rhtml-mode)
   "List of modes that uses tags.")
@@ -168,6 +162,18 @@ LEFT is used instead of KEY when KEY is not given."
      (wrap-region-define-wrapper left))
    wrap-region-table))
 
+(defun wrap-region-define-wrappers ()
+  "Defines defaults wrappers."
+  (mapc
+   (lambda (pair)
+     (apply 'wrap-region-add-wrapper pair))
+   '(("\"" "\"")
+     ("'"  "'")
+     ("("  ")")
+     ("{"  "}")
+     ("["  "]")
+     ("<"  ">"))))
+
 (defun wrap-region-define-wrapper (key)
   "Defines KEY as wrapper."
   (wrap-region-define-key key 'wrap-region-trigger))
@@ -188,6 +194,7 @@ LEFT is used instead of KEY when KEY is not given."
   :lighter " wr"
   :keymap wrap-region-mode-map
   (when wrap-region-mode
+    (wrap-region-define-wrappers)
     (wrap-region-define-keys)
     (run-hooks 'wrap-region-hook)))
 
