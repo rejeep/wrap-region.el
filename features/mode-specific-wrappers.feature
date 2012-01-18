@@ -215,3 +215,18 @@ Feature: Mode Specific Wrappers
        And I press "#"
       Then I should not see "This {-{-{-is some-}-}-} text"
        But I should see "This {-{-#is some-}-} text"
+       
+  Scenario: Remove simple wrapper for non mode-specific
+    Given I add wrapper "$/$"
+      And I enable latex-mode
+      And I enable wrap-region
+      And I insert "This is some text"
+      And I select "is some"
+      And I press "$"
+     Then I should see "This $is some$ text"
+     When I remove wrapper "$" from "latex-mode"
+      And I enable latex-mode
+      And I enable wrap-region
+      And I select "is some"
+      And I press "$"
+     Then I should see "This $$is some$$ text"

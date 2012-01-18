@@ -191,14 +191,15 @@ mode or multiple modes that the wrapper should trigger in."
   (let ((wrapper (gethash key wrap-region-table)))
     (when wrapper
       (if mode-or-modes
-          (let ((modes
-                 (if (listp mode-or-modes)
-                     mode-or-modes
-                   (list mode-or-modes))))
-            (let ((diff (set-difference (wrap-region-wrapper-modes wrapper) modes)))
-              (setf (wrap-region-wrapper-modes wrapper) diff))
-            (unless (wrap-region-wrapper-modes wrapper)
-              (wrap-region-destroy-wrapper key)))
+          (let* ((modes
+                  (if (listp mode-or-modes)
+                      mode-or-modes
+                    (list mode-or-modes)))
+                 (initial-modes (wrap-region-wrapper-modes wrapper))
+                 (diff (set-difference initial-modes modes)))
+            (setf (wrap-region-wrapper-modes wrapper) diff)
+            (if (and (not (wrap-region-wrapper-modes wrapper)) initial-modes)
+                (wrap-region-destroy-wrapper key)))
         (wrap-region-destroy-wrapper key)))))
 
 (defun wrap-region-destroy-wrapper (key)
