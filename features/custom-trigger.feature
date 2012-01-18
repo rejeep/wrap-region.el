@@ -1,5 +1,4 @@
 Feature: Custom trigger
-  In order to change trigger
   As a wrap region user
   I want to add wrapper with custom trigger
 
