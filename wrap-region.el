@@ -77,7 +77,7 @@
   (require 'cl))
 
 
-(defstruct wrap-region-wrapper key left right)
+(defstruct wrap-region-wrapper key left right modes)
 
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
@@ -104,15 +104,24 @@
 (defun wrap-region-trigger ()
   "Called when trigger key is pressed."
   (interactive)
-  (let ((key (char-to-string last-input-event)))
-    (if (region-active-p)
+  (let* ((key (char-to-string last-input-event))
+         (wrapper (gethash key wrap-region-table)))
+    (if (wrap-region-wrap-p wrapper)
         (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
-          (let ((wrapper (gethash key wrap-region-table)))
-            (wrap-region-with-punctuations
-             (wrap-region-wrapper-left wrapper)
-             (wrap-region-wrapper-right wrapper))))
+          (wrap-region-with-punctuations
+           (wrap-region-wrapper-left wrapper)
+           (wrap-region-wrapper-right wrapper)))
       (wrap-region-fallback key))))
+
+(defun wrap-region-wrap-p (wrapper)
+  "Checks if wrap should occur or not."
+  (let ((modes (wrap-region-wrapper-modes wrapper)))
+    (and
+     (region-active-p)
+     (or
+      (not modes)
+      (member major-mode modes)))))
 
 (defun wrap-region-insert-tag-p (key)
   "Checks if tag should be inserted or not."
@@ -151,15 +160,47 @@
      (key-binding
       (read-kbd-macro key)))))
 
-(defun wrap-region-add-wrapper (left right &optional key)
-  "Add new wrapper LEFT and RIGHT, with optional KEY as trigger."
+(defun wrap-region-add-wrapper (left right &optional key mode-or-modes)
+  "Add new LEFT and RIGHT wrapper.
+
+Optional KEY is the trigger key and MODE-OR-MODES is a single
+mode or multiple modes that the wrapper should trigger in."
   (or key (setq key left))
-  (let ((wrapper (make-wrap-region-wrapper :key key :left left :right right)))
+  (let* ((wrapper
+          (or
+           (gethash key wrap-region-table)
+           (make-wrap-region-wrapper :key key :left left :right right)))
+         (modes
+          (append
+           (wrap-region-wrapper-modes wrapper)
+           (if (listp mode-or-modes)
+               mode-or-modes
+             (list mode-or-modes)))))
+    (setf
+     (wrap-region-wrapper-modes wrapper) modes
+     (wrap-region-wrapper-left wrapper)  left
+     (wrap-region-wrapper-right wrapper) right)
     (puthash key wrapper wrap-region-table))
   (wrap-region-define-trigger key))
 
-(defun wrap-region-remove-wrapper (key)
-  "Removed wrapper with trigger KEY."
+(defun wrap-region-remove-wrapper (key &optional mode-or-modes)
+  "Remove wrapper with trigger KEY or exclude from MODE-OR-MODES."
+  (let ((wrapper (gethash key wrap-region-table)))
+    (when wrapper
+      (if mode-or-modes
+          (let ((modes
+                 (if (listp mode-or-modes)
+                     mode-or-modes
+                   (list mode-or-modes))))
+            (when modes
+              (let ((diff (set-difference (wrap-region-wrapper-modes wrapper) modes)))
+                (setf (wrap-region-wrapper-modes wrapper) diff)))
+            (unless (wrap-region-wrapper-modes wrapper)
+              (wrap-region-destory-wrapper key)))
+        (wrap-region-destory-wrapper key)))))
+
+(defun wrap-region-destory-wrapper (key)
+  "Removes the wrapper bound to KEY, no questions asked."
   (remhash key wrap-region-table)
   (wrap-region-unset-key key))
 
