@@ -196,10 +196,10 @@ mode or multiple modes that the wrapper should trigger in."
               (let ((diff (set-difference (wrap-region-wrapper-modes wrapper) modes)))
                 (setf (wrap-region-wrapper-modes wrapper) diff)))
             (unless (wrap-region-wrapper-modes wrapper)
-              (wrap-region-destory-wrapper key)))
-        (wrap-region-destory-wrapper key)))))
+              (wrap-region-destroy-wrapper key)))
+        (wrap-region-destroy-wrapper key)))))
 
-(defun wrap-region-destory-wrapper (key)
+(defun wrap-region-destroy-wrapper (key)
   "Removes the wrapper bound to KEY, no questions asked."
   (remhash key wrap-region-table)
   (wrap-region-unset-key key))
