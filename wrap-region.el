@@ -171,11 +171,12 @@ mode or multiple modes that the wrapper should trigger in."
            (gethash key wrap-region-table)
            (make-wrap-region-wrapper :key key :left left :right right)))
          (modes
-          (append
-           (wrap-region-wrapper-modes wrapper)
-           (if (listp mode-or-modes)
-               mode-or-modes
-             (list mode-or-modes)))))
+          (remove-duplicates
+           (append
+            (wrap-region-wrapper-modes wrapper)
+            (if (listp mode-or-modes)
+                mode-or-modes
+              (list mode-or-modes))))))
     (setf
      (wrap-region-wrapper-modes wrapper) modes
      (wrap-region-wrapper-left wrapper)  left
