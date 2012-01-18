@@ -60,9 +60,11 @@
 ;; that wraps. You can add and remove new wrappers by using the
 ;; functions `wrap-region-add-wrapper' and
 ;; `wrap-region-remove-wrapper' respectively.
-;;   (wrap-region-add-wrapper "`" "'")        ; hit ` then region -> `region'
-;;   (wrap-region-add-wrapper "/*" "*/" "/")  ; hit / then region -> /*region*/
+;;   (wrap-region-add-wrapper "`" "'")                  ; hit ` then region -> `region'
+;;   (wrap-region-add-wrapper "/*" "*/" "/")            ; hit / then region -> /*region*/
+;;   (wrap-region-add-wrapper "$" "$" nil 'latex-mode)  ; hit $ then region -> $region$ in latex-mode
 ;;   (wrap-region-remove-wrapper "(")
+;;   (wrap-region-remove-wrapper "$" 'latex-mode)
 ;;
 ;; Some modes may have conflicting key bindings with wrap-region. To
 ;; avoid conflicts, the list `wrap-region-except-modes' contains names
