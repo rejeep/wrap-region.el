@@ -195,9 +195,8 @@ mode or multiple modes that the wrapper should trigger in."
                  (if (listp mode-or-modes)
                      mode-or-modes
                    (list mode-or-modes))))
-            (when modes
-              (let ((diff (set-difference (wrap-region-wrapper-modes wrapper) modes)))
-                (setf (wrap-region-wrapper-modes wrapper) diff)))
+            (let ((diff (set-difference (wrap-region-wrapper-modes wrapper) modes)))
+              (setf (wrap-region-wrapper-modes wrapper) diff))
             (unless (wrap-region-wrapper-modes wrapper)
               (wrap-region-destroy-wrapper key)))
         (wrap-region-destroy-wrapper key)))))
