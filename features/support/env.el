@@ -23,8 +23,8 @@
 
 (After
  ;; For scenarios that add wrappers
- (wrap-region-remove-wrapper "$")
- (wrap-region-remove-wrapper "#")
+ (wrap-region-destroy-wrapper "$")
+ (wrap-region-destroy-wrapper "#")
 
  ;; Reset hooks
  (setq wrap-region-hook nil)
