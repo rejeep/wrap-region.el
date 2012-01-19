@@ -1,0 +1,129 @@
+Feature: Remove Wrappers
+  In order to extend wrap region
+  As a wrap region user
+  I want to remove wrappers
+
+  Scenario: Remove wrapper
+    Given I add wrapper "$/$"
+     Then key "$" should wrap with "$" and "$"
+     When I remove wrapper "$"
+     Then key "$" should not wrap
+
+  Scenario: Remove wrapper with custom trigger
+    Given I add wrapper "{-/-}/$"
+     Then key "$" should wrap with "{-" and "-}"
+     When I remove wrapper "$"
+     Then key "$" should not wrap
+
+  Scenario: Remove wrapper when exist for mode
+    Given I add wrapper "$/$" for "text-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+     When I remove wrapper "$"
+     Then key "$" should not wrap
+
+  Scenario: Remove wrapper from mode when exist for mode
+    Given I add wrapper "$/$" for "text-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+     When I remove wrapper "$" from "text-mode"
+     Then key "$" should not wrap in "text-mode"
+
+  Scenario: Remove wrapper with custom trigger when exist for mode
+    Given I add wrapper "{-/-}/$" for "text-mode"
+     Then key "$" should wrap with "{-" and "-}" in "text-mode"
+     When I remove wrapper "$"
+     Then key "$" should not wrap
+
+  Scenario: Remove wrapper with custom trigger from mode when exist for mode
+    Given I add wrapper "{-/-}/$" for "text-mode"
+     Then key "$" should wrap with "{-" and "-}" in "text-mode"
+     When I remove wrapper "$" from "text-mode"
+     Then key "$" should not wrap in "text-mode"
+
+  Scenario: Remove wrapper when exist for modes
+    Given I add wrapper "$/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+      And key "$" should wrap with "$" and "$" in "fundamental-mode"
+     When I remove wrapper "$"
+     Then key "$" should not wrap in "text-mode"
+      And key "$" should not wrap in "fundamental-mode"
+
+  Scenario: Remove wrapper from mode when exist for modes
+    Given I add wrapper "$/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+      And key "$" should wrap with "$" and "$" in "fundamental-mode"
+     When I remove wrapper "$" from "text-mode"
+     Then key "$" should not wrap in "text-mode"
+      But key "$" should wrap with "$" and "$" in "fundamental-mode"
+
+  Scenario: Remove wrapper from modes when exist for modes
+    Given I add wrapper "$/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+      And key "$" should wrap with "$" and "$" in "fundamental-mode"
+     When I remove wrapper "$" from "text-mode"
+      And I remove wrapper "$" from "fundamental-mode"
+     Then key "$" should not wrap in "text-mode"
+      And key "$" should not wrap in "fundamental-mode"
+
+  Scenario: Remove wrapper with custom trigger when exist for modes
+    Given I add wrapper "{-/-}/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "{-" and "-}" in "text-mode"
+      And key "$" should wrap with "{-" and "-}" in "fundamental-mode"
+     When I remove wrapper "$"
+     Then key "$" should not wrap in "text-mode"
+      And key "$" should not wrap in "fundamental-mode"
+
+  Scenario: Remove wrapper with custom trigger from mode when exist for modes
+    Given I add wrapper "{-/-}/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "{-" and "}-" in "text-mode"
+      And key "$" should wrap with "{-" and "}-" in "fundamental-mode"
+     When I remove wrapper "$" from "text-mode"
+     Then key "$" should not wrap in "text-mode"
+      But key "$" should wrap with "{-" and "-}" in "fundamental-mode"
+
+  Scenario: Remove wrapper with custom trigger from modes when exist for modes
+    Given I add wrapper "{-/-}/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "{-" and "-}" in "text-mode"
+      And key "$" should wrap with "{-" and "-}" in "fundamental-mode"
+     When I remove wrapper "$" from "text-mode"
+      And I remove wrapper "$" from "fundamental-mode"
+     Then key "$" should not wrap in "text-mode"
+      And key "$" should not wrap in "fundamental-mode"
+
+  Scenario: Remove wrapper when mix exist
+    Given I add wrapper "$/$"
+      And I add wrapper "#/#/$" for "text-mode"
+      And I add wrapper "{-/-}/$" for "fundamental-mode,emacs-lisp-mode"
+     Then key "$" should wrap with "$" and "$"
+      And key "$" should wrap with "#" and "#" in "text-mode"
+      And key "$" should wrap with "{-" and "-}" in "fundamental-mode"
+      And key "$" should wrap with "{-" and "-}" in "emacs-lisp-mode"
+     When I remove wrapper "$"
+     Then key "$" should not wrap
+     
+  Scenario: Remove wrapper for mode when mix exist
+    Given I add wrapper "$/$"
+      And I add wrapper "#/#/$" for "text-mode"
+      And I add wrapper "{-/-}/$" for "fundamental-mode,emacs-lisp-mode"
+     Then key "$" should wrap with "$" and "$"
+      And key "$" should wrap with "#" and "#" in "text-mode"
+      And key "$" should wrap with "{-" and "-}" in "fundamental-mode"
+      And key "$" should wrap with "{-" and "-}" in "emacs-lisp-mode"
+     When I remove wrapper "$" from "text-mode"
+     Then key "$" should wrap with "$" and "$"
+      And key "$" should wrap with "{-" and "-}" in "fundamental-mode"
+      And key "$" should wrap with "{-" and "-}" in "emacs-lisp-mode"
+      But key "$" should not wrap in "text-mode"
+     
+  Scenario: Remove wrapper for modes when mix exist
+    Given I add wrapper "$/$"
+      And I add wrapper "#/#/$" for "text-mode"
+      And I add wrapper "{-/-}/$" for "fundamental-mode,emacs-lisp-mode"
+     Then key "$" should wrap with "$" and "$"
+      And key "$" should wrap with "#" and "#" in "text-mode"
+      And key "$" should wrap with "{-" and "-}" in "fundamental-mode"
+      And key "$" should wrap with "{-" and "-}" in "emacs-lisp-mode"
+     When I remove wrapper "$" from "fundamental-mode,emacs-lisp-mode"
+     Then key "$" should wrap with "$" and "$"
+      And key "$" should wrap with "#" and "#" in "text-mode"
+      But key "$" should not wrap in "fundamental-mode"
+      And key "$" should not wrap in "emacs-lisp-mode"

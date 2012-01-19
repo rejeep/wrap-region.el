@@ -3,13 +3,11 @@ Feature: Wrap with tags
   As a wrap region user
   I want to wrap region with tags
 
-  Background:
-    When I insert "this is some text"
-     And I select "is some"
-
   Scenario: No tag wrap when no tag mode
-    Given I enable text-mode
-      And I enable wrap-region
+    Given I turn on text-mode
+      And I turn on wrap-region
+     When I insert "this is some text"
+      And I select "is some"
       And I start an action chain
       And I press "<"
       And I type "div"
@@ -18,8 +16,10 @@ Feature: Wrap with tags
       But I should see "this div<is some> text"
 
   Scenario: Wrap with tag
-    Given I enable html-mode
-      And I enable wrap-region
+    Given I turn on html-mode
+      And I turn on wrap-region
+     When I insert "this is some text"
+      And I select "is some"
       And I start an action chain
       And I press "<"
       And I type "div"
@@ -27,8 +27,10 @@ Feature: Wrap with tags
      Then I should see "<div>is some</div>"
 
   Scenario: Wrap with tag incuding attribute
-    Given I enable html-mode
-      And I enable wrap-region
+    Given I turn on html-mode
+     When I insert "this is some text"
+      And I select "is some"
+      And I turn on wrap-region
       And I start an action chain
       And I press "<"
       And I type "div class=\"some-class\""
