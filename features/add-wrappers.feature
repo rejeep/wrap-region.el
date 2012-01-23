@@ -110,3 +110,9 @@ Feature: Add Wrappers
       And I add wrapper "#/#/$"
      Then key "$" should wrap with "$" and "$" in "text-mode"
       And key "$" should wrap with "#" and "#" in "emacs-lisp-mode"
+
+  Scenario: Add exactly same wrapper for mode
+    Given I add wrapper "#/#/#"
+      And I add wrapper "#/#/#" for "text-mode"
+     Then key "#" should wrap with "#" and "#" in "fundamental-mode"
+      And key "#" should wrap with "#" and "#" in "text-mode"
