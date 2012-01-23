@@ -185,8 +185,8 @@ mode or multiple modes that the wrapper should trigger in."
                  (find-if
                   (lambda (wrapper)
                     (and
-                     (equal (wrap-region-wrapper-key wrapper)   key)
-                     (equal (wrap-region-wrapper-left wrapper)  left)
+                     (equal (wrap-region-wrapper-key wrapper) key)
+                     (equal (wrap-region-wrapper-left wrapper) left)
                      (equal (wrap-region-wrapper-right wrapper) right)))
                   wrappers)))
             (if wrapper-exactly-same
