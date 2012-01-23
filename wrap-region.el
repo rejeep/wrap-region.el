@@ -236,7 +236,6 @@ mode or multiple modes that the wrapper should trigger in."
 
 (defun wrap-region-define-wrappers ()
   "Defines defaults wrappers."
-  ;; (clrhash wrap-region-table)
   (mapc
    (lambda (pair)
      (apply 'wrap-region-add-wrapper pair))
