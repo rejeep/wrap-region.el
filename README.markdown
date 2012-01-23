@@ -8,12 +8,12 @@ I recommend installing via ELPA, but manual installation is simple as well:
 
     (add-to-list 'load-path "/path/to/wrap-region")
     (require 'wrap-region)
-    
+
 ## Usage
 Start `wrap-region-mode` using.
 
     (wrap-region-mode t)
-    
+
 or
 
     M-x wrap-region-mode
@@ -27,6 +27,15 @@ The above are the default wrappers. You can add more yourself:
     (wrap-region-add-wrapper "/" "/" nil 'ruby-mode)
     (wrap-region-add-wrapper "/* " " */" "#" '(java-mode javascript-mode css-mode))
     (wrap-region-add-wrapper "`" "`" nil '(markdown-mode ruby-mode))
+
+The same can be done with:
+
+    (wrap-region-add-wrappers
+     '(("$" "$")
+       ("{-" "-}" "#")
+       ("/" "/" nil 'ruby-mode)
+       ("/* " " */" "#" '(java-mode javascript-mode css-mode))
+       ("`" "`" nil '(markdown-mode ruby-mode))))
 
 
 For more information, see comments in `wrap-region.el`.
@@ -42,7 +51,7 @@ conflict. Wrap region stores a list of modes (see
 Some modes are added to the except list by default. See the list with:
 
     (describe-variable 'wrap-region-except-modes)
-    
+
 To add a new mode, do this:
 
     (add-to-list 'wrap-region-except-modes 'conflicting-mode)
@@ -56,7 +65,7 @@ To fetch Ecukes:
     $ cd /path/to/wrap-region
     $ git submodule init
     $ git submodule update
-    
+
 Run the tests with:
 
     $ ./util/ecukes/ecukes features

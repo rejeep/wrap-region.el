@@ -166,6 +166,13 @@
      (key-binding
       (read-kbd-macro key)))))
 
+(defun wrap-region-add-wrappers (wrappers)
+  "Add WRAPPERS by calling `wrap-region-add-wrapper' for each one."
+  (mapc
+   (lambda (wrapper)
+     (apply 'wrap-region-add-wrapper wrapper))
+   wrappers))
+
 (defun wrap-region-add-wrapper (left right &optional key mode-or-modes)
   "Add new LEFT and RIGHT wrapper.
 

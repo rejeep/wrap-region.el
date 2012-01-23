@@ -116,3 +116,14 @@ Feature: Add Wrappers
       And I add wrapper "#/#/#" for "text-mode"
      Then key "#" should wrap with "#" and "#" in "fundamental-mode"
       And key "#" should wrap with "#" and "#" in "text-mode"
+
+  Scenario: Add wrappers
+    Given I add wrapper these wrappers:
+      | left | right | key | modes                      |
+      | {-   | -}    | #   |                            |
+      | $    | $     | $   | text-mode                  |
+      | $    | $     | #   | text-mode,fundamental-mode |
+     Then key "#" should wrap with "{-" and "-}" in "emacs-lisp-mode"
+      And key "$" should wrap with "$" and "$" in "text-mode"
+      And key "#" should wrap with "$" and "$" in "text-mode"
+      And key "#" should wrap with "$" and "$" in "fundamental-mode"

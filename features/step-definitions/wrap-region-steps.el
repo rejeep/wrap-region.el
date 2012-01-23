@@ -46,3 +46,17 @@
        (lambda (key mode-or-modes)
          (let ((modes (parse-modes mode-or-modes)))
            (wrap-region-remove-wrapper key modes))))
+
+(Given "^I add wrapper these wrappers:$"
+       (lambda (table)
+         (let ((wrappers (cdr table)))
+           (wrap-region-add-wrappers
+            (mapcar
+             (lambda (wrapper)
+               (let* ((left  (pop wrapper))
+                      (right (pop wrapper))
+                      (key   (pop wrapper))
+                      (split (split-string (car wrapper) ","))
+                      (modes (mapcar 'intern (delete "" split))))
+                 (list left right key modes)))
+             wrappers)))))
