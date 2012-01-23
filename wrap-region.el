@@ -198,16 +198,18 @@ mode or multiple modes that the wrapper should trigger in."
                 (if modes
                     (puthash key (cons wrapper-exactly-same wrappers) wrap-region-table)))
             (let ((new-wrapper (make-wrap-region-wrapper :key key :left left :right right :modes modes)))
-              (let ((wrapper-same-trigger
-                     (find-if
-                      (lambda (wrapper)
-                        (equal (wrap-region-wrapper-key wrapper) key))
-                      wrappers)))
-                (if wrapper-same-trigger
-                    (let ((new-modes (nset-difference (wrap-region-wrapper-modes wrapper-same-trigger) modes)))
-                      (if new-modes
-                          (setf (wrap-region-wrapper-modes wrapper-same-trigger) new-modes)
-                        (delete wrapper-same-trigger wrappers))))
+              (let* ((wrapper-same-trigger
+                      (find-if
+                       (lambda (wrapper)
+                         (equal (wrap-region-wrapper-key wrapper) key))
+                       wrappers))
+                     (wrapper-same-trigger-modes
+                      (wrap-region-wrapper-modes wrapper-same-trigger)))
+                (when (and wrapper-same-trigger wrapper-same-trigger-modes)
+                  (let ((new-modes (nset-difference (wrap-region-wrapper-modes wrapper-same-trigger) modes)))
+                    (if new-modes
+                        (setf (wrap-region-wrapper-modes wrapper-same-trigger) new-modes)
+                      (setq wrappers (delete wrapper-same-trigger wrappers)))))
                 (puthash key (cons new-wrapper wrappers) wrap-region-table)))))
       (let ((new-wrapper (make-wrap-region-wrapper :key key :left left :right right :modes modes)))
         (puthash key (list new-wrapper) wrap-region-table))))
