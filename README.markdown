@@ -22,10 +22,12 @@ Now try selecting a region and press any of the following keys: `"`, `'`, `(`, `
 
 The above are the default wrappers. You can add more yourself:
 
-    (wrap-region-add-wrapper "`" "`")
+    (wrap-region-add-wrapper "$" "$")
     (wrap-region-add-wrapper "{-" "-}" "#")
-    (wrap-region-add-wrapper "$" "$" nil 'latex-mode)
-    (wrap-region-add-wrapper "/*" "*/" "#" '(javascript-mode java-mode))
+    (wrap-region-add-wrapper "/" "/" nil 'ruby-mode)
+    (wrap-region-add-wrapper "/* " " */" "#" '(java-mode javascript-mode css-mode))
+    (wrap-region-add-wrapper "`" "`" nil '(markdown-mode ruby-mode))
+
 
 For more information, see comments in `wrap-region.el`.
 
