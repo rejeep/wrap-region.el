@@ -48,6 +48,12 @@ Feature: Add Wrappers
       And I add wrapper "#/#/$" for "text-mode"
      Then key "$" should wrap with "#" and "#" in "text-mode"
 
+  Scenario: Override wrapper for modes
+    Given I add wrapper "$/$" for "text-mode,fundamental-mode"
+      And I add wrapper "#/#/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "#" and "#" in "text-mode"
+      And key "$" should wrap with "#" and "#" in "fundamental-mode"
+
   Scenario: Add another wrapper for same mode
     Given I add wrapper "$/$" for "text-mode"
       And I add wrapper "#/#" for "text-mode"
