@@ -216,25 +216,25 @@ mode or multiple modes that the wrapper should trigger in."
 (defun wrap-region-remove-wrapper (key &optional mode-or-modes)
   "Remove wrapper with trigger KEY or exclude from MODE-OR-MODES."
   (if mode-or-modes
-      (if (and (listp mode-or-modes) (> (length mode-or-modes) 1))
-          (mapc
-           (lambda (mode)
-             (wrap-region-remove-wrapper key mode))
-           mode-or-modes)
-        (let* ((mode mode-or-modes)
-               (modes (if mode (list mode)))
-               (wrappers (gethash key wrap-region-table)))
-          (let ((wrapper
-                 (find-if
-                  (lambda (wrapper)
-                    (let ((modes (wrap-region-wrapper-modes wrapper)))
-                      (member mode modes)))
-                  wrappers)))
-            (when wrapper
-              (let ((modes (delete mode (wrap-region-wrapper-modes wrapper))))
-                (if modes
-                    (setf (wrap-region-wrapper-modes wrapper) modes)
-                  (puthash key (delete wrapper wrappers) wrap-region-table)))))))
+      (let ((wrappers (gethash key wrap-region-table))
+            (modes
+             (if mode-or-modes
+                 (if (listp mode-or-modes)
+                     mode-or-modes
+                   (list mode-or-modes)))))
+        (mapc
+         (lambda (mode)
+           (let ((wrapper-including-mode
+                  (find-if
+                   (lambda (wrapper)
+                     (member mode (wrap-region-wrapper-modes wrapper)))
+                   wrappers)))
+             (when wrapper-including-mode
+               (let ((new-modes (delete mode (wrap-region-wrapper-modes wrapper-including-mode))))
+                 (if new-modes
+                     (setf (wrap-region-wrapper-modes wrapper-including-mode) new-modes)
+                   (puthash key (delete wrapper-including-mode wrappers) wrap-region-table))))))
+         modes))
     (remhash key wrap-region-table)))
 
 (defun wrap-region-destroy-wrapper (key)
