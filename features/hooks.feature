@@ -6,12 +6,12 @@ Feature: Hooks
   Scenario: Mode hook
     Given I add a mode hook that erases buffer
       And I insert "This is some text"
-     When I enable wrap-region
+     When I turn on wrap-region
      Then the buffer should be empty
 
   Scenario: Before wrap hook
     Given I add a before wrap hook that replaces "is some" with "some is"
-     When I enable wrap-region
+     When I turn on wrap-region
       And I insert "This is some text"
       And I select "is some"
       And I press "("
@@ -21,7 +21,7 @@ Feature: Hooks
   Scenario: After wrap hook
     Given I add an after wrap hook that replaces "(" with "["
       And I add an after wrap hook that replaces ")" with "]"
-     When I enable wrap-region
+     When I turn on wrap-region
       And I insert "This is some text"
       And I select "is some"
       And I press "("
