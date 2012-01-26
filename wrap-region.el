@@ -199,7 +199,7 @@ mode or multiple modes that the wrapper should trigger in."
                 (if modes
                     (setf
                      (wrap-region-wrapper-modes wrapper-exactly-same)
-                     (append modes (wrap-region-wrapper-modes wrapper-exactly-same)))
+                     (union modes (wrap-region-wrapper-modes wrapper-exactly-same)))
                   (let ((new-wrapper (make-wrap-region-wrapper :key key :left left :right right)))
                     (puthash key (cons new-wrapper wrappers) wrap-region-table))))
             (let* ((new-wrapper (make-wrap-region-wrapper :key key :left left :right right :modes modes))
