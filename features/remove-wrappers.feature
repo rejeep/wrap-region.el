@@ -31,7 +31,7 @@ Feature: Remove Wrappers
     Given I add wrapper "{-/-}/#" for "text-mode"
     Then key "#" should wrap with "{-" and "-}" in "text-mode"
     When I remove wrapper "#"
-    Then key "#" should not wrap
+    Then key "#" should not wrap in "text-mode"
 
   Scenario: Remove wrapper with custom trigger from mode when exist for mode
     Given I add wrapper "{-/-}/#" for "text-mode"
@@ -101,6 +101,7 @@ Feature: Remove Wrappers
     Then key "#" should not wrap in "text-mode"
     And key "#" should not wrap in "fundamental-mode"
     And key "#" should not wrap in "emacs-lisp-mode"
+    And key "#" should not wrap in "lisp-mode"
 
   Scenario: Remove wrapper from mode when mix exist
     Given I add wrapper "#/#"
