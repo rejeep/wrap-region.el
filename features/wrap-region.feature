@@ -20,7 +20,7 @@ Feature: Wrap Region
 
   Scenario: Global mode
     Given I add wrapper "$/$"
-    And I turn on wrap-region globaly
+    And I turn on wrap-region globally
     When I open temp file "global"
     And I insert "This is some text"
     And I select "is some"
@@ -29,7 +29,7 @@ Feature: Wrap Region
 
   Scenario: Except modes
     Given I add wrapper "$/$"
-    And I turn on wrap-region globaly
+    And I turn on wrap-region globally
     And I add "text-mode" as an except mode
     When I open temp file "global"
     And I turn on text-mode

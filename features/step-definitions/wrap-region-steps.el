@@ -5,7 +5,7 @@
       (intern mode-or-modes))))
 
 
-(Given "^I turn on wrap-region globaly$"
+(Given "^I turn on wrap-region globally$"
        (lambda ()
          (wrap-region-global-mode 1)))
 
