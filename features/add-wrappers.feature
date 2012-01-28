@@ -43,16 +43,48 @@ Feature: Add Wrappers
     And I add wrapper "{+/+}/#"
     Then key "#" should wrap with "{+" and "+}"
 
+  Scenario: Override normal wrapper with custom trigger
+    Given I add wrapper "$/$"
+    And I add wrapper "#/#/$"
+    Then key "$" should wrap with "#" and "#"
+
+  Scenario: Override custom trigger with normal wrapper
+    Given I add wrapper "#/#/$"
+    And I add wrapper "$/$"
+    Then key "$" should wrap with "$" and "$"
+
   Scenario: Override wrapper for mode
+    Given I add wrapper "$/#" for "text-mode"
+      And I add wrapper "$/$" for "text-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+
+  Scenario: Override normal wrapper with custom trigger for mode
     Given I add wrapper "$/$" for "text-mode"
     And I add wrapper "#/#/$" for "text-mode"
     Then key "$" should wrap with "#" and "#" in "text-mode"
 
+  Scenario: Override custom trigger with normal wrapper for mode
+    Given I add wrapper "#/#/$" for "text-mode"
+      And I add wrapper "$/$" for "text-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+
   Scenario: Override wrapper for modes
+    Given I add wrapper "$/#" for "text-mode,fundamental-mode"
+      And I add wrapper "$/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+      And key "$" should wrap with "$" and "$" in "fundamental-mode"
+
+  Scenario: Override normal wrapper with custom trigger for modes
     Given I add wrapper "$/$" for "text-mode,fundamental-mode"
     And I add wrapper "#/#/$" for "text-mode,fundamental-mode"
     Then key "$" should wrap with "#" and "#" in "text-mode"
     And key "$" should wrap with "#" and "#" in "fundamental-mode"
+
+  Scenario: Override custom trigger with normal wrapper for modes
+    Given I add wrapper "#/#/$" for "text-mode,fundamental-mode"
+      And I add wrapper "$/$" for "text-mode,fundamental-mode"
+     Then key "$" should wrap with "$" and "$" in "text-mode"
+      And key "$" should wrap with "$" and "$" in "fundamental-mode"
 
   Scenario: Add another wrapper for same mode
     Given I add wrapper "$/$" for "text-mode"
