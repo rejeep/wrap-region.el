@@ -60,3 +60,10 @@
                       (modes (mapcar 'intern (delete "" split))))
                  (list left right key modes)))
              wrappers)))))
+
+(Then "^key \"\\(.+\\)\" should be bound to \"\\(.+\\)\"$"
+      (lambda (key fn)
+        (should
+         (equal
+          (key-binding (read-kbd-macro key))
+          (intern fn)))))

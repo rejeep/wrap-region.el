@@ -129,3 +129,9 @@ Feature: Remove Wrappers
     And key "#" should wrap with "#" and "#" in "text-mode"
     And key "#" should wrap with "#" and "#" in "emacs-lisp-mode"
 
+  Scenario: Remove wrapper should unbind key when no wrapper left
+    Given I turn on wrap-region
+    And I add wrapper "$/$"
+    And I remove wrapper "$"
+    Then key "$" should be bound to "self-insert-command"
+

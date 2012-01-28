@@ -242,7 +242,7 @@ mode or multiple modes that the wrapper should trigger in."
                      (setf (wrap-region-wrapper-modes wrapper-including-mode) new-modes)
                    (puthash key (delete wrapper-including-mode wrappers) wrap-region-table))))))
          modes))
-    (remhash key wrap-region-table)))
+    (wrap-region-destroy-wrapper key)))
 
 (defun wrap-region-destroy-wrapper (key)
   "Removes the wrapper bound to KEY, no questions asked."
