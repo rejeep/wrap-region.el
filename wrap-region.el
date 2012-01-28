@@ -221,7 +221,9 @@ mode or multiple modes that the wrapper should trigger in."
   (wrap-region-define-trigger key))
 
 (defun wrap-region-remove-wrapper (key &optional mode-or-modes)
-  "Remove wrapper with trigger KEY or exclude from MODE-OR-MODES."
+  "Remove wrapper with trigger KEY or exclude from MODE-OR-MODES.
+
+If MODE-OR-MODES is not present, all wrappers for KEY are removed."
   (if mode-or-modes
       (let ((wrappers (gethash key wrap-region-table))
             (modes
