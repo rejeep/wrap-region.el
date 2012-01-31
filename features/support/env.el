@@ -30,10 +30,16 @@
  (setq wrap-region-hook nil)
  (setq wrap-region-before-wrap-hook nil)
  (setq wrap-region-after-wrap-hook nil)
- 
+
  ;; Disable wrap-region-mode
  (wrap-region-mode -1)
  (wrap-region-global-mode -1)
 
  ;; Reset all except modes
- (setq wrap-region-except-modes default-except-modes))
+ (setq wrap-region-except-modes default-except-modes)
+
+ ;; Do not require negative prefix arg
+ (setq wrap-region-only-with-negative-prefix nil)
+
+ ;; Disable delete-selection-mode
+ (delete-selection-mode -1))
