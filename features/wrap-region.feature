@@ -59,3 +59,16 @@ Feature: Wrap Region
     And I press "("
     Then I should not see "this (is some) text"
     But I should see "this (is some text"
+
+  Scenario: Except modes with delete-selection-mode on
+    Given I add wrapper "$/$"
+    And I turn on wrap-region globally
+    And I turn on delete-selection-mode
+    And I add "text-mode" as an except mode
+    When I open temp file "global"
+    And I turn on text-mode
+    And I insert "this is some text"
+    And I select "is some"
+    And I press "("
+    Then I should not see "this (is some) text"
+    But I should see "this ( text"
