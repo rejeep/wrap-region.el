@@ -164,7 +164,14 @@
   (let ((wrap-region-mode nil))
     (call-interactively
      (key-binding
-      (read-kbd-macro key)))))
+      (wrap-region-read-kbd-macro key)))))
+
+(defun wrap-region-read-kbd-macro (key)
+  (setq key (cond ((equal key " " )  "SPC")
+                  ((equal key "\t") "TAB")
+                  ((equal key "\n") "RET")
+                  (t key)))
+  (read-kbd-macro key))
 
 (defun wrap-region-add-wrappers (wrappers)
   "Add WRAPPERS by calling `wrap-region-add-wrapper' for each one."
@@ -273,7 +280,7 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
 
 (defun wrap-region-define-key (key &optional fn)
   "Binds KEY to FN in `wrap-region-mode-map'."
-  (define-key wrap-region-mode-map (read-kbd-macro key) fn))
+  (define-key wrap-region-mode-map (wrap-region-read-kbd-macro key) fn))
 
 
 ;;;###autoload
