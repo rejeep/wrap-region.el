@@ -29,6 +29,10 @@
        (lambda (left)
          (wrap-region-remove-wrapper left)))
 
+(Given "^I require negative prefix to wrap$"
+       (lambda ()
+         (setq wrap-region-only-with-negative-prefix t)))
+
 (Given "^I add wrapper \"\\(.+\\)\" for \"\\(.+\\)\"$"
        (lambda (wrapper mode-or-modes)
          (let* ((modes (parse-modes mode-or-modes))

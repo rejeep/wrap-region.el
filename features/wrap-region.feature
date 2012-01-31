@@ -27,6 +27,29 @@ Feature: Wrap Region
     And I press "$"
     Then I should see "This $is some$ text"
 
+  Scenario: Negative prefix required - don't wrap
+    Given I add wrapper "$/$"
+    And I turn on wrap-region
+    And I require negative prefix to wrap
+    When I insert "this is some text"
+    And I select "is some"
+    And I press "("
+    Then I should not see "this (is some) text"
+    But I should see "this (is some text"
+
+  Scenario: Negative prefix required - do wrap
+    Given I add wrapper "$/$"
+    And I turn on wrap-region globally
+    And I require negative prefix to wrap
+    When I insert "this is some text"
+    And I select "is some"
+    And I start an action chain
+    And I press "C-u"
+    And I press "-"
+    And I press "("
+    And I execute the action chain
+    Then I should see "this (is some) text"
+
   Scenario: Except modes
     Given I add wrapper "$/$"
     And I turn on wrap-region globally
@@ -39,3 +62,13 @@ Feature: Wrap Region
     Then I should not see "this (is some) text"
     But I should see "this (is some text"
 
+  Scenario: Support delete-selection-mode
+    Given I add wrapper "$/$"
+    And I turn on wrap-region
+    And I require negative prefix to wrap
+    And I turn on delete-selection-mode
+    When I insert "this is some text"
+    And I select "is some"
+    And I press "("
+    Then I should not see "this (is some) text"
+    But I should see "this ( text"

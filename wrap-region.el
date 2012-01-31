@@ -102,18 +102,24 @@
 (defvar wrap-region-after-wrap-hook nil
   "Called after wrapping.")
 
+(defvar wrap-region-only-with-negative-prefix nil
+  "Only wrap if the trigger key is prefixed with a negative value.")
 
-(defun wrap-region-trigger ()
+(defun wrap-region-trigger (arg)
   "Called when trigger key is pressed."
-  (interactive)
+  (interactive "p")
   (let* ((key (char-to-string last-input-event))
          (wrapper (wrap-region-find key)))
-    (if (and (region-active-p) wrapper)
+    (if (and wrapper
+             (region-active-p)
+             (or (not wrap-region-only-with-negative-prefix) (< arg 0)))
         (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
           (wrap-region-with-punctuations
            (wrap-region-wrapper-left wrapper)
            (wrap-region-wrapper-right wrapper)))
+      (when (and (region-active-p) delete-selection-mode)
+        (delete-region (region-beginning) (region-end)))
       (wrap-region-fallback key))))
 
 (defun wrap-region-find (key)
