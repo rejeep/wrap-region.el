@@ -119,8 +119,6 @@
           (wrap-region-with-punctuations
            (wrap-region-wrapper-left wrapper)
            (wrap-region-wrapper-right wrapper)))
-      (when (and (region-active-p) delete-selection-mode)
-        (delete-region (region-beginning) (region-end)))
       (wrap-region-fallback key))))
 
 (defun wrap-region-find (key)
