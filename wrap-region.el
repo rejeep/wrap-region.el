@@ -113,7 +113,7 @@
          (wrapper (wrap-region-find key)))
     (if (and wrapper
              (region-active-p)
-             (or (not wrap-region-only-with-negative-prefix) (< arg 0)))
+             (if wrap-region-only-with-negative-prefix (< arg 0) t))
         (if (wrap-region-insert-tag-p key)
             (wrap-region-with-tag)
           (wrap-region-with-punctuations
