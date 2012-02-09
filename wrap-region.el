@@ -1,6 +1,6 @@
 ;;; wrap-region.el --- Wrap text with punctation or tag
 
-;; Copyright (C) 2008-2010 Johan Andersson
+;; Copyright (C) 2008-2012 Johan Andersson
 
 ;; Author: Johan Andersson <johan.rejeep@gmail.com>
 ;; Maintainer: Johan Andersson <johan.rejeep@gmail.com>
