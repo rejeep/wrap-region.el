@@ -63,3 +63,25 @@ Feature: Wrap Region
     And I select "is some"
     And I press "$"
     Then I should see "this $ text"
+
+  Scenario: Wrapped region is not activate by default
+    Given I add wrapper "$/$"
+    And I turn on wrap-region
+    And I insert "this is some text"
+    And I select "is some"
+    And I press "$"
+    Then I should see "this $is some$ text"
+    Then there is no region selected
+
+  Scenario: Keep the wrapped region active
+    Given I add wrapper "$/$"
+    And I turn on wrap-region
+    And I require region to remain active after wrapping
+    And I insert "this is some text"
+    And I select "is some"
+    And I press "$"
+    Then I should see "this $is some$ text"
+    Then the region should be "is some"
+    And I press "$"
+    Then I should see "this $$is some$$ text"
+    Then the region should be "is some"

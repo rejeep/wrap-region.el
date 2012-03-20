@@ -33,6 +33,10 @@
        (lambda ()
          (setq wrap-region-only-with-negative-prefix t)))
 
+(Given "^I require region to remain active after wrapping$"
+       (lambda ()
+         (setq wrap-region-keep-mark t)))
+
 (Given "^I add wrapper \"\\(.+\\)\" for \"\\(.+\\)\"$"
        (lambda (wrapper mode-or-modes)
          (let* ((modes (parse-modes mode-or-modes))

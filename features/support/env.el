@@ -41,5 +41,8 @@
  ;; Do not require negative prefix arg
  (setq wrap-region-only-with-negative-prefix nil)
 
+ ;; Do not keep the wrapped region active
+ (setq wrap-region-keep-mark nil)
+
  ;; Disable delete-selection-mode
  (delete-selection-mode -1))
