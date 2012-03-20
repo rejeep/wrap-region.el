@@ -106,6 +106,9 @@
 (defvar wrap-region-only-with-negative-prefix nil
   "Only wrap if the trigger key is prefixed with a negative value.")
 
+(defvar wrap-region-keep-mark nil
+  "Keep the wrapped region active")
+
 (defun wrap-region-trigger (arg)
   "Called when trigger key is pressed."
   (interactive "p")
@@ -156,12 +159,23 @@
 (defun wrap-region-with (left right)
   "Wraps region with LEFT and RIGHT."
   (run-hooks 'wrap-region-before-wrap-hook)
-  (let ((beg (region-beginning)) (end (region-end)))
+  (let ((beg (region-beginning))
+        (end (region-end))
+        (pos (point))
+        (deactivate-mark nil))
     (save-excursion
       (goto-char beg)
       (insert left)
       (goto-char (+ end (length left)))
-      (insert right)))
+      (insert right))
+    (if wrap-region-keep-mark
+        (let* ((beg-p (eq beg pos))
+               (beg* (+ beg (length left)))
+               (end* (+ end (length left)))
+               (pos* (if beg-p beg* end*)))
+          (push-mark (if beg-p end* beg*) nil t)
+          (goto-char (if beg-p beg* end*)))
+      (deactivate-mark)))
   (run-hooks 'wrap-region-after-wrap-hook))
 
 (defun wrap-region-fallback (key)
