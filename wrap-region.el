@@ -109,11 +109,9 @@
 (defvar wrap-region-keep-mark nil
   "Keep the wrapped region active")
 
-(defun wrap-region-trigger (arg)
+(defun wrap-region-trigger (arg key)
   "Called when trigger key is pressed."
-  (interactive "p")
-  (let* ((key (char-to-string last-input-event))
-         (wrapper (wrap-region-find key)))
+  (let* ((wrapper (wrap-region-find key)))
     (if (and wrapper
              (region-active-p)
              (if wrap-region-only-with-negative-prefix (< arg 0) t))
@@ -283,7 +281,11 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
 
 (defun wrap-region-define-trigger (key)
   "Defines KEY as wrapper."
-  (wrap-region-define-key key 'wrap-region-trigger))
+  (wrap-region-define-key
+   key
+   `(lambda (arg)
+      (interactive "p")
+      (wrap-region-trigger arg ,key))))
 
 (defun wrap-region-unset-key (key)
   "Remove KEY from `wrap-region-mode-map'."
