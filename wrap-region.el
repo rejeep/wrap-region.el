@@ -107,7 +107,7 @@
   "Only wrap if the trigger key is prefixed with a negative value.")
 
 (defvar wrap-region-keep-mark nil
-  "Keep the wrapped region active")
+  "Keep the wrapped region active.")
 
 (defun wrap-region-trigger (arg key)
   "Called when trigger key is pressed."
@@ -123,7 +123,7 @@
       (wrap-region-fallback key))))
 
 (defun wrap-region-find (key)
-  "Finds first wrapper with trigger KEY that should be active in MAJOR-MODE."
+  "Find first wrapper with trigger KEY that should be active in MAJOR-MODE."
   (let ((wrappers (gethash key wrap-region-table)))
     (or
      (find-if
@@ -136,7 +136,7 @@
       wrappers))))
 
 (defun wrap-region-insert-tag-p (key)
-  "Checks if tag should be inserted or not."
+  "Check if tag should be inserted or not."
   (and
    (equal key "<")
    (member major-mode wrap-region-tag-active-modes)))
@@ -177,7 +177,7 @@
   (run-hooks 'wrap-region-after-wrap-hook))
 
 (defun wrap-region-fallback (key)
-  "Executes function that KEY was bound to before `wrap-region-mode'."
+  "Execute function that KEY was bound to before `wrap-region-mode'."
   (let ((wrap-region-mode nil))
     (execute-kbd-macro
      (edmacro-parse-keys key))))
@@ -263,7 +263,7 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
     (wrap-region-destroy-wrapper key)))
 
 (defun wrap-region-destroy-wrapper (key)
-  "Removes the wrapper bound to KEY, no questions asked."
+  "Remove the wrapper bound to KEY, no questions asked."
   (remhash key wrap-region-table)
   (wrap-region-unset-key key))
 
@@ -315,7 +315,7 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
 
 ;;;###autoload
 (defun turn-off-wrap-region-mode ()
-  "Turn off `wrap-region-mode'"
+  "Turn off `wrap-region-mode'."
   (interactive)
   (wrap-region-mode -1))
 
