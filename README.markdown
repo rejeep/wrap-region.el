@@ -60,12 +60,16 @@ To add a new mode, do this:
 Contribution is much welcome! Wrap region is tested using [Ecukes](http://ecukes.info). When
 Adding New features, please write tests for them!
 
-To fetch Ecukes:
+To fetch Ecukes, install [carton](https://github.com/rejeep/carton) if
+you haven't already, then:
 
     $ cd /path/to/wrap-region
-    $ git submodule init
-    $ git submodule update
+    $ carton
 
-Run the tests with:
+Run all tests with:
 
-    $ ./util/ecukes/ecukes features
+    $ make
+    
+And specific tests with:
+
+    $ FEATURES="hooks,tag" make test
