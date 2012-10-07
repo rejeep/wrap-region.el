@@ -1,0 +1,7 @@
+(source "melpa" "http://melpa.milkbox.net/packages/")
+
+(package "wrap-region" "0.6.0" "Wrap region with stuff.")
+
+(development
+ (depends-on "ecukes")
+ (depends-on "espuds"))
