@@ -1,5 +1,4 @@
-all:
-	@./.cartons/ecukes-*/ecukes features
+ECUKES = $(shell find elpa/ecukes-*/ecukes | tail -1)
 
-test:
-	@./.cartons/ecukes-*/ecukes features/{${FEATURES}}.feature
+all:
+	carton exec ${ECUKES} features
