@@ -58,10 +58,10 @@ To add a new mode, do this:
 
 ## Contribution
 Contribution is much welcome! Wrap region is tested using [Ecukes](http://ecukes.info). When
-Adding New features, please write tests for them!
+adding new features, please write tests for them!
 
-To fetch Ecukes, install [carton](https://github.com/rejeep/carton) if
-you haven't already, then:
+Install [carton](https://github.com/rejeep/carton) if you haven't
+already, then:
 
     $ cd /path/to/wrap-region
     $ carton
