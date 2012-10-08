@@ -69,7 +69,3 @@ you haven't already, then:
 Run all tests with:
 
     $ make
-    
-And specific tests with:
-
-    $ FEATURES="hooks,tag" make test
