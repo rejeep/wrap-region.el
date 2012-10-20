@@ -1,2 +1,2 @@
-(define-package "wrap-region" "0.6.0"
+(define-package "wrap-region" "0.7.0"
   "Wrap region with stuff.")
