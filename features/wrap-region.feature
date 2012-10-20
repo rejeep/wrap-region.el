@@ -86,3 +86,25 @@ Feature: Wrap Region
     And I press "#"
     Then I should see "this $#is some#$ text"
     Then the region should be "is some"
+
+  Scenario: Cursor placement when point is after mark
+    Given I add wrapper "$/$"
+    And I turn on wrap-region
+    And I insert "this is some text"
+    And I place the cursor before "is some"
+    And I press "C-SPC"
+    And I press "C-u 7 C-f"
+    And I press "$"
+    Then I should see "this $is some$ text"
+    And the cursor should be between "some$" and " text"
+
+  Scenario: Cursor placement when mark is after point
+    Given I add wrapper "$/$"
+    And I turn on wrap-region
+    And I insert "this is some text"
+    And I place the cursor after "is some"
+    And I press "C-SPC"
+    And I press "C-u 7 C-b"
+    And I press "$"
+    Then I should see "this $is some$ text"
+    And the cursor should be between "this " and "$is"

@@ -166,6 +166,7 @@
       (insert left)
       (goto-char (+ end (length left)))
       (insert right))
+    (if (= pos end) (forward-char 1))
     (if wrap-region-keep-mark
         (let* ((beg-p (eq beg pos))
                (beg* (+ beg (length left)))
