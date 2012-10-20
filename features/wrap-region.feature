@@ -75,6 +75,7 @@ Feature: Wrap Region
 
   Scenario: Keep the wrapped region active
     Given I add wrapper "$/$"
+    Given I add wrapper "#/#"
     And I turn on wrap-region
     And I require region to remain active after wrapping
     And I insert "this is some text"
@@ -82,6 +83,6 @@ Feature: Wrap Region
     And I press "$"
     Then I should see "this $is some$ text"
     Then the region should be "is some"
-    And I press "$"
-    Then I should see "this $$is some$$ text"
+    And I press "#"
+    Then I should see "this $#is some#$ text"
     Then the region should be "is some"
