@@ -169,8 +169,7 @@
     (if wrap-region-keep-mark
         (let* ((beg-p (eq beg pos))
                (beg* (+ beg (length left)))
-               (end* (+ end (length left)))
-               (pos* (if beg-p beg* end*)))
+               (end* (+ end (length left))))
           (push-mark (if beg-p end* beg*) nil t)
           (goto-char (if beg-p beg* end*)))
       (deactivate-mark)))
