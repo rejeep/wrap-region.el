@@ -326,4 +326,8 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
 
 (provide 'wrap-region)
 
+;; Local Variables:
+;; byte-compile-warnings: (not cl-functions)
+;; End:
+
 ;;; wrap-region.el ends here
