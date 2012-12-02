@@ -88,7 +88,8 @@
 (defvar wrap-region-table (make-hash-table :test 'equal)
   "Table with wrapper pairs.")
 
-(defvar wrap-region-tag-active-modes '(html-mode sgml-mode rhtml-mode nxml-mode nxhtml-mode handlebars-mode)
+(defvar wrap-region-tag-active-modes
+  '(html-mode sgml-mode rhtml-mode nxml-mode nxhtml-mode handlebars-mode web-mode)
   "List of modes that uses tags.")
 
 (defvar wrap-region-except-modes '(calc-mode dired-mode)
