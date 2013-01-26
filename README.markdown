@@ -3,6 +3,8 @@ Wrap Region is a minor mode for Emacs that wraps a region with
 punctuations. For "tagged" markup modes, such as HTML and XML, it
 wraps with tags.
 
+[<img src="http://img.youtube.com/vi/9SWAKPF0fHE/0.jpg">](https://www.youtube.com/watch?v=9SWAKPF0fHE)
+
 ## Installation
 I recommend installing via ELPA, but manual installation is simple as well:
 
