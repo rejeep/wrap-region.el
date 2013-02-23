@@ -2,6 +2,8 @@
 
 (package "wrap-region" "0.7.0" "Wrap region with stuff.")
 
+(depends-on "dash")
+
 (development
  (depends-on "ecukes")
  (depends-on "espuds"))
