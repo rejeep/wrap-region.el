@@ -7,6 +7,7 @@
 ;; Version: 0.7.1
 ;; Keywords: speed, convenience
 ;; URL: http://github.com/rejeep/wrap-region
+;; Package-Requires: ((dash "1.0.3"))
 
 ;; This file is NOT part of GNU Emacs.
 
