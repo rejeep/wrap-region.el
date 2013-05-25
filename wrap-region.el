@@ -95,7 +95,7 @@
 (defvar wrap-region-except-modes '(calc-mode dired-mode)
   "A list of modes in which `wrap-region-mode' should not be activated.")
 
-(defvar wrap-region-hook nil
+(defvar wrap-region-mode-hook nil
   "Called when `wrap-region-mode' is turned on.")
 
 (defvar wrap-region-before-wrap-hook nil
@@ -304,8 +304,7 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
   :lighter " wr"
   :keymap wrap-region-mode-map
   (when wrap-region-mode
-    (wrap-region-define-wrappers)
-    (run-hooks 'wrap-region-hook)))
+    (wrap-region-define-wrappers)))
 
 ;;;###autoload
 (defun turn-on-wrap-region-mode ()
