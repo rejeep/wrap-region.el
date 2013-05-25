@@ -82,33 +82,63 @@
 
 (defstruct wrap-region-wrapper key left right modes)
 
+(defgroup wrap-region nil
+  "Wrap region with delimiters."
+  :group 'editing
+  :link '(url-link :tag "Github" "https://github.com/rejeep/wrap-region"))
+
+(defcustom wrap-region-except-modes '(calc-mode dired-mode)
+  "Major modes which should not use `wrap-region-mode'."
+  :group 'wrap-region
+  :type '(repeat (symbol :tag "Major mode")))
+
+(defcustom wrap-region-tag-active-modes
+  '(html-mode sgml-mode rhtml-mode nxml-mode nxhtml-mode handlebars-mode web-mode)
+  "Major modes that use tags."
+  :group 'wrap-region
+  :type '(repeat (symbol :tag "Major mode")))
+
+(defcustom wrap-region-mode-hook nil
+  "Functions to run after `wrap-region-mode' is enabled.
+
+This variable is a normal hook."
+  :group 'wrap-region
+  :type 'hook)
+
+(defcustom wrap-region-before-wrap-hook nil
+  "Functions to run before wrapping.
+
+This variable is a normal hook."
+  :group 'wrap-region
+  :type 'hook)
+
+(defcustom wrap-region-after-wrap-hook nil
+  "Functions to run after wrapping.
+
+This variable is a normal hook."
+  :group 'wrap-region
+  :type 'hook)
+
+(defcustom wrap-region-only-with-negative-prefix nil
+  "If non-nil only wrap with negative prefix.
+
+If this variable is not nil, only wrap the region if the trigger
+key is given a negative prefix argument.  Otherwise do not wrap.
+
+If nil, always wrap the region."
+  :group 'wrap-region
+  :type 'boolean)
+
+(defcustom wrap-region-keep-mark nil
+  "If non-nil, keep the wrapped region active."
+  :group 'wrap-region
+  :type 'boolean)
+
 (defvar wrap-region-mode-map (make-sparse-keymap)
   "Keymap for `wrap-region-mode'.")
 
 (defvar wrap-region-table (make-hash-table :test 'equal)
   "Table with wrapper pairs.")
-
-(defvar wrap-region-tag-active-modes
-  '(html-mode sgml-mode rhtml-mode nxml-mode nxhtml-mode handlebars-mode web-mode)
-  "List of modes that uses tags.")
-
-(defvar wrap-region-except-modes '(calc-mode dired-mode)
-  "A list of modes in which `wrap-region-mode' should not be activated.")
-
-(defvar wrap-region-mode-hook nil
-  "Called when `wrap-region-mode' is turned on.")
-
-(defvar wrap-region-before-wrap-hook nil
-  "Called before wrapping.")
-
-(defvar wrap-region-after-wrap-hook nil
-  "Called after wrapping.")
-
-(defvar wrap-region-only-with-negative-prefix nil
-  "Only wrap if the trigger key is prefixed with a negative value.")
-
-(defvar wrap-region-keep-mark nil
-  "Keep the wrapped region active.")
 
 (defun wrap-region-trigger (arg key)
   "Called when trigger key is pressed."
@@ -303,12 +333,14 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
   :init-value nil
   :lighter " wr"
   :keymap wrap-region-mode-map
+  :group 'wrap-region
+  :require 'wrap-region
   (when wrap-region-mode
     (wrap-region-define-wrappers)))
 
 ;;;###autoload
 (defun turn-on-wrap-region-mode ()
-  "Turn on `wrap-region-mode'"
+  "Turn on `wrap-region-mode'."
   (interactive)
   (unless (member major-mode wrap-region-except-modes)
     (wrap-region-mode +1)))
@@ -322,7 +354,9 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
 ;;;###autoload
 (define-globalized-minor-mode wrap-region-global-mode
   wrap-region-mode
-  turn-on-wrap-region-mode)
+  turn-on-wrap-region-mode
+  :group 'wrap-region
+  :require 'wrap-region)
 
 (provide 'wrap-region)
 
