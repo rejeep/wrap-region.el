@@ -98,6 +98,7 @@
   :group 'wrap-region
   :type '(repeat (symbol :tag "Major mode")))
 
+(define-obsolete-variable-alias 'wrap-region-hook 'wrap-region-mode-hook "0.8")
 (defcustom wrap-region-mode-hook nil
   "Functions to run after `wrap-region-mode' is enabled.
 
