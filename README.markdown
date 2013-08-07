@@ -62,11 +62,11 @@ To add a new mode, do this:
 Contribution is much welcome! Wrap region is tested using [Ecukes](http://ecukes.info). When
 adding new features, please write tests for them!
 
-Install [carton](https://github.com/rejeep/carton) if you haven't
+Install [cask](https://github.com/rejeep/cask.el) if you haven't
 already, then:
 
     $ cd /path/to/wrap-region
-    $ carton
+    $ cask
 
 Run all tests with:
 
