@@ -54,16 +54,6 @@ Feature: Wrap Region
     Then I should not see "this (is some) text"
     But I should see "this (is some text"
 
-  Scenario: Support delete-selection-mode
-    Given I add wrapper "$/$"
-    And I turn on wrap-region
-    And I require negative prefix to wrap
-    And I turn on delete-selection-mode
-    When I insert "this is some text"
-    And I select "is some"
-    And I press "$"
-    Then I should see "this $ text"
-
   Scenario: Wrapped region is not activate by default
     Given I add wrapper "$/$"
     And I turn on wrap-region

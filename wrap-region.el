@@ -212,8 +212,7 @@ If nil, always wrap the region."
 (defun wrap-region-fallback (key)
   "Execute function that KEY was bound to before `wrap-region-mode'."
   (let ((wrap-region-mode nil))
-    (execute-kbd-macro
-     (edmacro-parse-keys key))))
+    (call-interactively (key-binding key))))
 
 (defun wrap-region-add-wrappers (wrappers)
   "Add WRAPPERS by calling `wrap-region-add-wrapper' for each one."
