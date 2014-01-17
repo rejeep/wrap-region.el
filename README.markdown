@@ -1,4 +1,4 @@
-# Wrap Region [![Build Status](https://api.travis-ci.org/rejeep/wrap-region.png?branch=master)](http://travis-ci.org/rejeep/wrap-region)
+# Wrap Region [![Build Status](https://api.travis-ci.org/rejeep/wrap-region.el.png?branch=master)](http://travis-ci.org/rejeep/wrap-region.el)
 Wrap Region is a minor mode for Emacs that wraps a region with
 punctuations. For "tagged" markup modes, such as HTML and XML, it
 wraps with tags.
