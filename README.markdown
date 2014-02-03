@@ -35,9 +35,9 @@ The same can be done with:
     (wrap-region-add-wrappers
      '(("$" "$")
        ("{-" "-}" "#")
-       ("/" "/" nil 'ruby-mode)
-       ("/* " " */" "#" '(java-mode javascript-mode css-mode))
-       ("`" "`" nil '(markdown-mode ruby-mode))))
+       ("/" "/" nil ruby-mode)
+       ("/* " " */" "#" (java-mode javascript-mode css-mode))
+       ("`" "`" nil (markdown-mode ruby-mode))))
 
 
 For more information, see comments in `wrap-region.el`.
