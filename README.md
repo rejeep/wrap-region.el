@@ -6,7 +6,8 @@ wraps with tags.
 [<img src="http://img.youtube.com/vi/9SWAKPF0fHE/0.jpg">](https://www.youtube.com/watch?v=9SWAKPF0fHE)
 
 ## Installation
-I recommend installing via ELPA, but manual installation is simple as well:
+~~I recommend installing via ELPA, but manual installation is simple as well:~~
+Clone this repository and install manually:
 
     (add-to-list 'load-path "/path/to/wrap-region")
     (require 'wrap-region)
@@ -62,7 +63,7 @@ To add a new mode, do this:
 Contribution is much welcome! Wrap region is tested using [Ecukes](http://ecukes.info). When
 adding new features, please write tests for them!
 
-Install [cask](https://github.com/rejeep/cask.el) if you haven't
+Install [cask](https://github.com/cask/cask) if you haven't
 already, then:
 
     $ cd /path/to/wrap-region
