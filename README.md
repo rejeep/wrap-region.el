@@ -7,6 +7,7 @@ wraps with tags.
 
 ## Installation
 ~~I recommend installing via ELPA, but manual installation is simple as well:~~
+
 Clone this repository and install manually:
 
     (add-to-list 'load-path "/path/to/wrap-region")
