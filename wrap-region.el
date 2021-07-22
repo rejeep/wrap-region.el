@@ -5,6 +5,8 @@
 ;; Author: Johan Andersson <johan.rejeep@gmail.com>
 ;; Maintainer: Johan Andersson <johan.rejeep@gmail.com>
 ;; Version: 0.7.3
+;; Package-Version: 20140117.720
+;; Package-Commit: fbae9b0f106187af19823f1a6260b5c68b7252e6
 ;; Keywords: speed, convenience
 ;; URL: http://github.com/rejeep/wrap-region
 ;; Package-Requires: ((dash "1.0.3"))
@@ -79,9 +81,9 @@
 (require 'edmacro)
 (require 'dash)
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-lib))
 
-(defstruct wrap-region-wrapper key left right modes)
+(cl-defstruct wrap-region-wrapper key left right modes)
 
 (defgroup wrap-region nil
   "Wrap region with delimiters."
