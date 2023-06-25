@@ -302,7 +302,7 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
   (wrap-region-unset-key key))
 
 (defun wrap-region-define-wrappers ()
-  "Defines defaults wrappers."
+  "Define default wrappers."
   (mapc
    (lambda (pair)
      (apply 'wrap-region-add-wrapper pair))
@@ -314,12 +314,13 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
      ("<"  ">"))))
 
 (defun wrap-region-define-trigger (key)
-  "Defines KEY as wrapper."
-  (wrap-region-define-key
-   key
-   `(lambda (arg)
-      (interactive "p")
-      (wrap-region-trigger arg ,key))))
+  "Define KEY as wrapper."
+  (let ((func-name (intern (concat "wrap-region-trigger-" key))))
+    (fset func-name
+          `(lambda (arg)
+             (interactive "p")
+             (wrap-region-trigger arg ,key)))
+    (wrap-region-define-key key func-name)))
 
 (defun wrap-region-unset-key (key)
   "Remove KEY from `wrap-region-mode-map'."
