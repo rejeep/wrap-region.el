@@ -5,6 +5,8 @@
 ;; Author: Johan Andersson <johan.rejeep@gmail.com>
 ;; Maintainer: Johan Andersson <johan.rejeep@gmail.com>
 ;; Version: 0.7.3
+;; Package-Version: 20140117.720
+;; Package-Commit: fbae9b0f106187af19823f1a6260b5c68b7252e6
 ;; Keywords: speed, convenience
 ;; URL: http://github.com/rejeep/wrap-region
 ;; Package-Requires: ((dash "1.0.3"))
@@ -79,9 +81,9 @@
 (require 'edmacro)
 (require 'dash)
 (eval-when-compile
-  (require 'cl))
+  (require 'cl-lib))
 
-(defstruct wrap-region-wrapper key left right modes)
+(cl-defstruct wrap-region-wrapper key left right modes)
 
 (defgroup wrap-region nil
   "Wrap region with delimiters."
@@ -199,7 +201,7 @@ If nil, always wrap the region."
       (insert left)
       (goto-char (+ end (length left)))
       (insert right))
-    (if (= pos end) (forward-char 1))
+    (if (= pos end) (forward-char (length right)))
     (if wrap-region-keep-mark
         (let* ((beg-p (eq beg pos))
                (beg* (+ beg (length left)))
@@ -300,7 +302,7 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
   (wrap-region-unset-key key))
 
 (defun wrap-region-define-wrappers ()
-  "Defines defaults wrappers."
+  "Define default wrappers."
   (mapc
    (lambda (pair)
      (apply 'wrap-region-add-wrapper pair))
@@ -312,12 +314,13 @@ If MODE-OR-MODES is not present, all wrappers for KEY are removed."
      ("<"  ">"))))
 
 (defun wrap-region-define-trigger (key)
-  "Defines KEY as wrapper."
-  (wrap-region-define-key
-   key
-   `(lambda (arg)
-      (interactive "p")
-      (wrap-region-trigger arg ,key))))
+  "Define KEY as wrapper."
+  (let ((func-name (intern (concat "wrap-region-trigger-" key))))
+    (fset func-name
+          `(lambda (arg)
+             (interactive "p")
+             (wrap-region-trigger arg ,key)))
+    (wrap-region-define-key key func-name)))
 
 (defun wrap-region-unset-key (key)
   "Remove KEY from `wrap-region-mode-map'."
